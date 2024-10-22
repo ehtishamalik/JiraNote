@@ -1,11 +1,9 @@
 // Colors
 $color-primary: rgb(26, 26, 26);
 $color-secondary: rgb(36, 36, 36);
-
-// Backgrounds
-$bg-primary: rgba(255, 255, 255, 0.87);
-$bg-accent: rgb(100, 108, 255);
-$bg-accent-hover: rgb(83, 91, 242);
+$color-tertiary: rgba(255, 255, 255, 0.87);
+$color-accent: rgb(100, 108, 255);
+$color-accent-hover: rgb(83, 91, 242);
 
 // Breakpoints
 $breakpoint-sm: 24rem;
@@ -20,11 +18,11 @@ $text-normal: 400;
 $text-bold: 500;
 $text-bolder: 700;
 
-$line-height: 1.2;
+$line-height: 1;
 
 // Standards
 $transition: 0.2s linear;
-$border-radius: 1rem;
+$border-radius: 0.5rem;
 
 // Buttons
 $button-font-weight: 600;

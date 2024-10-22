@@ -6,7 +6,7 @@
   border: none;
   outline: none;
   border-radius: $button-border-radius;
-  background-color: $bg-accent;
+  background-color: $color-accent;
   transition: background-color $transition, transform $transition;
   cursor: pointer;
 
@@ -77,7 +77,7 @@
   }
 
   &:hover {
-    background-color: $bg-accent-hover;
+    background-color: $color-accent-hover;
     transform: translateY(-0.1rem);
   }
 }
