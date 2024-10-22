@@ -1,0 +1,23 @@
+@use "./variables" as *;
+
+button {
+  border-radius: 8px;
+  border: none;
+  padding: 0.6em 1.2em;
+  font-size: 1em;
+  font-weight: 500;
+  font-family: inherit;
+  background-color: $bg-accent;
+  cursor: pointer;
+  transition: background-color $transition, transform $transition;
+
+  &:hover {
+    background-color: $bg-accent-hover;
+    transform: translateY(-0.1rem);
+  }
+
+  &:focus,
+  &:focus-visible {
+    outline: 4px auto -webkit-focus-ring-color;
+  }
+}
