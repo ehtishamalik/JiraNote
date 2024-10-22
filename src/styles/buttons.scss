@@ -1,0 +1,83 @@
+@use "./variables" as *;
+
+.jn-button {
+  display: flex;
+  place-items: center;
+  border: none;
+  outline: none;
+  border-radius: $button-border-radius;
+  background-color: $color-accent;
+  transition: background-color $transition, transform $transition;
+  cursor: pointer;
+
+  &__icon {
+    display: inline-flex;
+    place-items: center;
+  }
+
+  &__text {
+    font-weight: $button-font-weight;
+    font-family: $button-font-family;
+    letter-spacing: $button-letter-spacing;
+    line-height: $button-line-height;
+  }
+
+  &__small {
+    gap: $button-small-gap;
+    padding: $button-small-padding;
+
+    .jn-button {
+      &__icon {
+        img {
+          width: $button-small-font-size;
+          height: $button-small-font-size;
+        }
+      }
+
+      &__text {
+        font-size: $button-small-font-size;
+      }
+    }
+  }
+
+  &__medium {
+    gap: $button-medium-gap;
+    padding: $button-medium-padding;
+
+    .jn-button {
+      &__icon {
+        img {
+          width: $button-medium-font-size;
+          height: $button-medium-font-size;
+        }
+      }
+
+      &__text {
+        font-size: $button-medium-font-size;
+      }
+    }
+  }
+
+  &__large {
+    gap: $button-large-gap;
+    padding: $button-large-padding;
+
+    .jn-button {
+      &__icon {
+        img {
+          width: $button-large-font-size;
+          height: $button-large-font-size;
+        }
+      }
+
+      &__text {
+        font-size: $button-large-font-size;
+      }
+    }
+  }
+
+  &:hover {
+    background-color: $color-accent-hover;
+    transform: translateY(-0.1rem);
+  }
+}

@@ -1,0 +1,84 @@
+@use "./variables" as *;
+
+.jn-select {
+  &__container {
+    position: relative;
+    display: flex;
+    place-items: center;
+    gap: 0.2rem;
+    width: 100%;
+    border-radius: $border-radius;
+    background-color: $color-tertiary;
+    border: 0.2rem solid red;
+    padding: 0.5rem 0 0.5rem 0.5rem;
+    cursor: pointer;
+  }
+
+  &__value {
+    flex: 1;
+  }
+
+  &__clear {
+    background: transparent;
+    outline: none;
+    border: none;
+    color: $color-secondary;
+    font-size: 1.5rem;
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    transition: background-color $transition;
+    cursor: pointer;
+
+    &:hover {
+      background-color: rgba($color-secondary, 0.1);
+    }
+  }
+
+  &__divider {
+    background-color: $color-secondary;
+    align-self: stretch;
+    width: 0.05rem;
+  }
+
+  &__caret {
+    translate: 0 25%;
+    border: 0.25rem solid transparent;
+    border-top-color: $color-secondary;
+    margin: 0 0.5rem;
+  }
+
+  &__options {
+    position: absolute;
+    left: 0;
+    top: calc(100% + 0.3rem);
+    width: 100%;
+    max-height: 10rem;
+    overflow-y: auto;
+    list-style: none;
+    z-index: 100;
+    visibility: hidden;
+    height: 0;
+    box-shadow: 0 0.5rem 0.5rem 0.25rem rgba($color-secondary, 0.2);
+    border-radius: $border-radius;
+    background-color: $color-tertiary;
+
+    &.show {
+      visibility: visible;
+      height: auto;
+    }
+  }
+
+  &__item {
+    padding: 0.5rem;
+    transition: background-color $transition;
+
+    &:hover {
+      background-color: rgba($color-accent, 0.3);
+    }
+
+    &.selected {
+      background-color: rgba($color-accent, 0.2);
+    }
+  }
+}

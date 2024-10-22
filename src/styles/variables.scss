@@ -1,0 +1,44 @@
+// Colors
+$color-primary: rgb(26, 26, 26);
+$color-secondary: rgb(36, 36, 36);
+$color-tertiary: rgba(255, 255, 255, 0.87);
+$color-accent: rgb(100, 108, 255);
+$color-accent-hover: rgb(83, 91, 242);
+
+// Breakpoints
+$breakpoint-sm: 24rem;
+$breakpoint-md: 48rem;
+$breakpoint-lg: 62rem;
+$breakpoint-xl: 75rem;
+$breakpoint-xxl: 90rem;
+
+// Typography
+$text-light: 300;
+$text-normal: 400;
+$text-bold: 500;
+$text-bolder: 700;
+
+$line-height: 1;
+
+// Standards
+$transition: 0.2s linear;
+$border-radius: 0.5rem;
+
+// Buttons
+$button-font-weight: 600;
+$button-font-family: inherit;
+$button-letter-spacing: 0.1rem;
+$button-line-height: 1;
+$button-border-radius: 0.6rem;
+
+$button-small-gap: 0.3rem;
+$button-small-padding: 0.4rem 0.5rem;
+$button-small-font-size: 1rem;
+
+$button-medium-gap: 0.3rem;
+$button-medium-padding: 0.6rem 0.8rem;
+$button-medium-font-size: 1rem;
+
+$button-large-gap: 0.5rem;
+$button-large-padding: 0.8rem 1rem;
+$button-large-font-size: 1.2rem;
