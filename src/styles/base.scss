@@ -21,6 +21,12 @@
   box-sizing: border-box;
 }
 
+body {
+  min-width: $breakpoint-sm;
+  max-width: $breakpoint-xxl;
+  margin: 0 auto;
+}
+
 @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
