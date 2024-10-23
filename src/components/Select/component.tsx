@@ -1,7 +1,8 @@
-import { SelectOption, SelectProps } from './types';
-import participants from '../../json/participants.json';
+import { SelectProps } from './types';
+import recipientJson from '../../json/recipient.json';
 import { useMemo, useState } from 'react';
 import clsx from 'clsx';
+import { SelectOption } from '../../types';
 
 export const Select = ({
   id,
@@ -9,7 +10,7 @@ export const Select = ({
   onChangeCallback,
 }: SelectProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const options: SelectOption[] = useMemo(() => participants, []);
+  const options: SelectOption[] = useMemo(() => recipientJson, []);
   const selectedLabel: string = useMemo(() => {
     const selectedOption = options.filter(
       (item) => item.value === selectedValue
@@ -18,12 +19,12 @@ export const Select = ({
   }, [selectedValue]);
 
   const handleOnChange = (option: SelectOption) => () => {
-    onChangeCallback?.(option.value, id);
+    onChangeCallback?.(option.value, option.label, id);
   };
 
   const handleReset = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
-    onChangeCallback?.('', id);
+    onChangeCallback?.('', '', id);
   };
 
   return (

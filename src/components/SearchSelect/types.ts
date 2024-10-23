@@ -1,6 +1,6 @@
 import { SelectOptionValue } from '../../types';
 
-export type SelectProps = {
+export type SearchSelectProps = {
   id: string;
   selectedValue: SelectOptionValue;
   onChangeCallback?: (

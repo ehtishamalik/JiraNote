@@ -23,6 +23,7 @@ $line-height: 1;
 // Standards
 $transition: 0.2s linear;
 $border-radius: 0.5rem;
+$box-shadow: 0 0.5rem 0.5rem 0.25rem rgba($color-secondary, 0.2);
 
 // Buttons
 $button-font-weight: 600;
@@ -42,3 +43,16 @@ $button-medium-font-size: 1rem;
 $button-large-gap: 0.5rem;
 $button-large-padding: 0.8rem 1rem;
 $button-large-font-size: 1.2rem;
+
+// Input Fields
+$input-container-width: 100%;
+$input-container-padding: 0.5rem 0 0.5rem 0.5rem;
+$input-container-border: 0.15rem solid $color-secondary;
+$input-container-item-gap: 0.2rem;
+$input-items-padding: 0.5rem;
+$input-font-size: 1.2rem;
+$input-bg-color: $color-tertiary;
+$input-color: $color-secondary;
+$input-color-text: $color-primary;
+$input-color-placeholder: rgba($color-secondary, 0.5);
+$input-btn-clear-size: 1.5rem;
