@@ -39,7 +39,8 @@ $button-border-radius: 0.6rem;
 
 $button-small-gap: 0.3rem;
 $button-small-padding: 0.4rem 0.5rem;
-$button-small-font-size: 1rem;
+$button-small-font-size: 0.8rem;
+$button-small-icon-size: 1rem;
 
 $button-medium-gap: 0.3rem;
 $button-medium-padding: 0.6rem 0.8rem;
@@ -61,3 +62,4 @@ $input-color: $color-secondary;
 $input-color-text: $color-primary;
 $input-color-placeholder: rgba($color-secondary, 0.5);
 $input-btn-clear-size: 1.5rem;
+$input-options-max-height: 15rem;

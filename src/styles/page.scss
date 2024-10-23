@@ -22,3 +22,64 @@
     }
   }
 }
+
+.jn-form {
+  .jn-form {
+    &__container {
+      padding: 2rem;
+      background-color: var(--bg-color);
+      border-radius: $border-radius;
+    }
+
+    &__header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 2rem;
+
+      &--values {
+        display: inline-flex;
+        gap: 1rem;
+        flex: 1;
+      }
+
+      &--total {
+        display: inline-block;
+        width: 100%;
+        max-width: 5rem;
+        background-color: $color-white;
+        border: $input-container-border;
+        border-radius: $border-radius;
+      }
+    }
+
+    &__grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(16rem, 1fr));
+      gap: 1rem 4rem;
+
+      @media (max-width: $breakpoint-lg) {
+        gap: 1rem 2rem;
+      }
+
+      @media (max-width: $breakpoint-md) {
+        grid-template-columns: repeat(1, minmax(16rem, 1fr));
+      }
+    }
+
+    &__row {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+
+      .jn-select {
+        flex: 1;
+      }
+
+      .jn-inputfield {
+        flex: 0.3;
+      }
+    }
+  }
+}

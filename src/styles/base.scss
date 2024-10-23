@@ -21,7 +21,12 @@ body {
   font-weight: $text-normal;
   min-width: $breakpoint-sm;
   max-width: $breakpoint-xxl;
+  padding: 0 2rem;
   margin: 0 auto;
+}
+
+main#root {
+  margin-bottom: $input-options-max-height;
 }
 
 /* Chrome, Safari, Edge, Opera */

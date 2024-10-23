@@ -28,6 +28,7 @@
         border: none;
         background-color: transparent;
         outline: none;
+        width: 100%;
       }
 
       &--placeholder {
@@ -75,13 +76,14 @@
       z-index: 100;
       visibility: hidden;
       height: 0;
-      max-height: 10rem;
+      max-height: $input-options-max-height;
       box-shadow: $box-shadow;
       border: 0.5rem solid $input-bg-color;
       border-right-width: 0;
       border-radius: $border-radius;
       background-color: $input-bg-color;
       opacity: 0%;
+      line-height: 1.5;
       transition: height $transition, opacity $transition;
 
       &.show {

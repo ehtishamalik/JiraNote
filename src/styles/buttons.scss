@@ -39,13 +39,14 @@
       .jn-button {
         &__icon {
           img {
-            width: $button-small-font-size;
-            height: $button-small-font-size;
+            width: $button-small-icon-size;
+            height: $button-small-icon-size;
           }
         }
 
         &__text {
           font-size: $button-small-font-size;
+          letter-spacing: 0;
         }
       }
     }
