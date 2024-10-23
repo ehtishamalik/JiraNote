@@ -17,7 +17,9 @@ $breakpoint-xxl: 90rem;
 $text-light: 300;
 $text-normal: 400;
 $text-bold: 500;
-$text-bolder: 700;
+$text-bolder: 600;
+
+$font-familty: "Poppins", sans-serif;
 
 $line-height: 1;
 
@@ -25,10 +27,12 @@ $line-height: 1;
 $transition: 0.2s linear;
 $border-radius: 0.5rem;
 $box-shadow: 0 0.5rem 0.5rem 0.25rem rgba($color-secondary, 0.2);
+$text-shadow: 0.1rem 0.1rem 0 $color-white,
+  0.25rem 0.25rem 0 $color-accent-hover;
 
 // Buttons
-$button-font-weight: 600;
-$button-font-family: inherit;
+$button-color: $color-tertiary;
+$button-font-weight: $text-bold;
 $button-letter-spacing: 0.1rem;
 $button-line-height: 1;
 $button-border-radius: 0.6rem;

@@ -22,12 +22,16 @@
     }
 
     &__text {
+      font-family: $font-familty;
+      color: $button-color;
       font-weight: $button-font-weight;
-      font-family: $button-font-family;
       letter-spacing: $button-letter-spacing;
       line-height: $button-line-height;
+      text-transform: capitalize;
     }
+  }
 
+  &.jn-button {
     &__small {
       gap: $button-small-gap;
       padding: $button-small-padding;

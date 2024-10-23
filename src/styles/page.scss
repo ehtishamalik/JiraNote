@@ -1,0 +1,24 @@
+@use "./variables" as *;
+
+.header {
+  .header {
+    &__container {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    &__heading {
+      text-transform: capitalize;
+      font-size: 2.5rem;
+      text-shadow: $text-shadow;
+    }
+
+    &__actions {
+      display: inline-flex;
+      place-items: center;
+      gap: 1rem;
+    }
+  }
+}

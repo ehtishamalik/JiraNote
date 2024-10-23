@@ -18,15 +18,18 @@ export const Button = ({
       buttonIcon = IconExport;
       break;
   }
+
   return (
     <button
       type="button"
       className={clsx('jn-button', `jn-button__${size}`)}
       onClick={() => onclickCallback?.()}
     >
-      <span className="jn-button__icon">
-        <img src={buttonIcon} alt="button icon" />
-      </span>
+      {buttonIcon && (
+        <span className="jn-button__icon">
+          <img src={buttonIcon} alt="button icon" />
+        </span>
+      )}
       <span className="jn-button__text">{text}</span>
     </button>
   );
