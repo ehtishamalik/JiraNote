@@ -1,0 +1,27 @@
+@use "./variables" as *;
+
+.jn-inputfield {
+  .jn-inputfield {
+    &__input {
+      margin: 1rem 0;
+      border: none;
+      outline: none;
+      color: $input-color-text;
+      font-size: $input-font-size;
+      width: $input-container-width;
+      border-radius: $border-radius;
+      background-color: $input-bg-color;
+      border: $input-container-border;
+      padding: $input-items-padding;
+
+      &--number {
+        text-align: right;
+      }
+
+      &:focus,
+      &:focus-visible {
+        border-color: $color-accent;
+      }
+    }
+  }
+}

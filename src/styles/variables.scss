@@ -1,7 +1,8 @@
 // Colors
+$color-white: rgb(250, 250, 250);
 $color-primary: rgb(26, 26, 26);
 $color-secondary: rgb(36, 36, 36);
-$color-tertiary: rgba(255, 255, 255, 0.87);
+$color-tertiary: rgb(230, 230, 230);
 $color-accent: rgb(100, 108, 255);
 $color-accent-hover: rgb(83, 91, 242);
 
@@ -51,7 +52,7 @@ $input-container-border: 0.15rem solid $color-secondary;
 $input-container-item-gap: 0.2rem;
 $input-items-padding: 0.5rem;
 $input-font-size: 1.2rem;
-$input-bg-color: $color-tertiary;
+$input-bg-color: $color-white;
 $input-color: $color-secondary;
 $input-color-text: $color-primary;
 $input-color-placeholder: rgba($color-secondary, 0.5);
