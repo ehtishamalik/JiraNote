@@ -20,7 +20,7 @@ export const SearchSelect = ({
       (item) => item.value === selectedValue
     );
     return selectedOption.length > 0 ? selectedOption[0].label : '';
-  }, [selectedValue]);
+  }, [selectedValue, options]);
 
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -37,7 +37,7 @@ export const SearchSelect = ({
     );
 
     setOptions(newOptions);
-  }, [searchText]);
+  }, [searchText, Epics]);
 
   const handleOnChangeOption =
     (option: SelectOption) => (event: React.MouseEvent<HTMLLIElement>) => {

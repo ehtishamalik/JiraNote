@@ -16,7 +16,7 @@ export const Select = ({
       (item) => item.value === selectedValue
     );
     return selectedOption.length > 0 ? selectedOption[0].label : '';
-  }, [selectedValue]);
+  }, [selectedValue, options]);
 
   const handleOnChange = (option: SelectOption) => () => {
     onChangeCallback?.(option.value, option.label, id);
