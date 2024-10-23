@@ -1,1 +1,4 @@
-export type HeaderProps = {};
+export type HeaderProps = {
+  exportCallback: () => void;
+  addAnotherCallback: () => void;
+};

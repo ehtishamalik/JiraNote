@@ -14,8 +14,12 @@
       padding: $input-container-padding;
       cursor: pointer;
 
-      &.active {
+      &--active {
         border-color: $color-accent;
+      }
+
+      &--disabled {
+        cursor: auto;
       }
     }
 
@@ -79,7 +83,6 @@
       max-height: $input-options-max-height;
       box-shadow: $box-shadow;
       border: 0.5rem solid $input-bg-color;
-      border-right-width: 0;
       border-radius: $border-radius;
       background-color: $input-bg-color;
       opacity: 0%;

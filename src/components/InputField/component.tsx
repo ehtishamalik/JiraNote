@@ -2,6 +2,8 @@ import { InputFieldProps } from './types';
 
 export const InputField = ({
   id,
+  value,
+  disabled = false,
   inputType,
   onChangeCallback,
 }: InputFieldProps) => {
@@ -18,6 +20,9 @@ export const InputField = ({
         className={`jn-inputfield__input jn-inputfield__input--${inputType}`}
         name={`${id}-name`}
         type={inputType}
+        value={value || ''}
+        placeholder="0"
+        disabled={disabled}
         onChange={handleOnChange}
       />
     </div>

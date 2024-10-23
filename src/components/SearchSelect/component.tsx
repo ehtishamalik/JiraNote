@@ -7,6 +7,7 @@ import { SelectOption } from '../../types';
 export const SearchSelect = ({
   id,
   selectedValue,
+  disabled = false,
   onChangeCallback,
 }: SearchSelectProps) => {
   const Epics: SelectOption[] = epicsJson;
@@ -38,6 +39,11 @@ export const SearchSelect = ({
 
     setOptions(newOptions);
   }, [searchText, Epics]);
+
+  const handleOnOpen = () => {
+    if (disabled) return;
+    setIsOpen(true);
+  };
 
   const handleOnChangeOption =
     (option: SelectOption) => (event: React.MouseEvent<HTMLLIElement>) => {
@@ -73,11 +79,12 @@ export const SearchSelect = ({
         ref={containerRef}
         id={id}
         className={clsx('jn-select__container', {
-          active: isOpen,
+          'jn-select__container--active': isOpen,
+          'jn-select__container--disabled': disabled,
         })}
         tabIndex={0}
         onBlur={handleBlur}
-        onClick={() => setIsOpen(true)}
+        onClick={handleOnOpen}
       >
         {isOpen || selectedLabel ? (
           <input

@@ -6,13 +6,14 @@ export type SelectOption = {
 };
 
 export interface ITicket {
-  id: number;
+  id: string;
   epic: string;
   points: number;
 }
 
 export interface IRecipient {
-  id: number;
+  id: string;
   recipient: string;
+  totalPoints: number;
   tickets: ITicket[];
 }

@@ -29,6 +29,7 @@
       padding: 2rem;
       background-color: var(--bg-color);
       border-radius: $border-radius;
+      margin-bottom: 1rem;
     }
 
     &__header {
@@ -42,15 +43,23 @@
         display: inline-flex;
         gap: 1rem;
         flex: 1;
+
+        .jn-select {
+          min-width: 18rem;
+        }
       }
 
       &--total {
-        display: inline-block;
+        display: inline-flex;
+        justify-content: center;
+        place-items: center;
         width: 100%;
         max-width: 5rem;
         background-color: $color-white;
         border: $input-container-border;
         border-radius: $border-radius;
+        font-size: $input-font-size;
+        padding: $input-items-padding;
       }
     }
 
