@@ -3,33 +3,49 @@ import participants from '../../json/participants.json';
 import { useMemo, useState } from 'react';
 import clsx from 'clsx';
 
-export const Select = ({ onChangeCallback }: SelectProps) => {
+export const Select = ({
+  id,
+  selectedValue,
+  onChangeCallback,
+}: SelectProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [currentValue, setCurrentValue] = useState<SelectOption | undefined>(
-    undefined
-  );
   const options: SelectOption[] = useMemo(() => participants, []);
+  const selectedLabel: string = useMemo(() => {
+    const selectedOption = options.filter(
+      (item) => item.value === selectedValue
+    );
+    return selectedOption.length > 0 ? selectedOption[0].label : '';
+  }, [selectedValue]);
 
-  const handleOnChange = (value: SelectOption) => () => {
-    setCurrentValue(value);
-    onChangeCallback?.(value);
+  const handleOnChange = (option: SelectOption) => () => {
+    onChangeCallback?.(option.value, id);
   };
 
   const handleReset = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
-    setCurrentValue(undefined);
-    onChangeCallback?.(undefined);
+    onChangeCallback?.('', id);
   };
 
   return (
     <div className="jn-select">
       <div
-        className="jn-select__container"
+        id={id}
+        className={clsx('jn-select__container', {
+          active: isOpen,
+        })}
         tabIndex={0}
         onBlur={() => setIsOpen(false)}
         onClick={() => setIsOpen(!isOpen)}
       >
-        <span className="jn-select__value">{currentValue?.label ?? ''}</span>
+        {selectedLabel ? (
+          <span className="jn-select__text jn-select__text--value">
+            {selectedLabel}
+          </span>
+        ) : (
+          <span className="jn-select__text jn-select__text--placeholder">
+            Select a Recipient
+          </span>
+        )}
         <button className="jn-select__clear" onClick={handleReset}>
           &times;
         </button>
@@ -40,11 +56,13 @@ export const Select = ({ onChangeCallback }: SelectProps) => {
             show: isOpen,
           })}
         >
-          {options.map((option) => (
+          {options.map((option, index) => (
             <li
-              key={option.value}
+              key={index}
               onClick={handleOnChange(option)}
-              className="jn-select__item"
+              className={clsx('jn-select__item', {
+                selected: option.value === selectedValue,
+              })}
             >
               {option.label}
             </li>

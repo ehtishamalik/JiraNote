@@ -9,13 +9,22 @@
     width: 100%;
     border-radius: $border-radius;
     background-color: $color-tertiary;
-    border: 0.2rem solid red;
+    border: 0.15rem solid $color-secondary;
     padding: 0.5rem 0 0.5rem 0.5rem;
     cursor: pointer;
+
+    &.active {
+      border-color: $color-accent;
+    }
   }
 
-  &__value {
+  &__text {
     flex: 1;
+    font-size: 1.2rem;
+
+    &--placeholder {
+      color: rgba($color-secondary, 0.5);
+    }
   }
 
   &__clear {
@@ -60,6 +69,7 @@
     visibility: hidden;
     height: 0;
     box-shadow: 0 0.5rem 0.5rem 0.25rem rgba($color-secondary, 0.2);
+    padding: 0.5rem 0;
     border-radius: $border-radius;
     background-color: $color-tertiary;
 

@@ -1,8 +1,12 @@
+export type SelectOptionValue = string;
+
 export type SelectOption = {
   label: string;
-  value: string;
+  value: SelectOptionValue;
 };
 
 export type SelectProps = {
-  onChangeCallback?: (value?: SelectOption) => void;
+  id: string;
+  selectedValue: SelectOptionValue;
+  onChangeCallback?: (value: SelectOptionValue, key: string) => void;
 };
