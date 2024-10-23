@@ -1,84 +1,113 @@
 @use "./variables" as *;
 
 .jn-select {
-  &__container {
-    position: relative;
-    display: flex;
-    place-items: center;
-    gap: 0.2rem;
-    width: 100%;
-    border-radius: $border-radius;
-    background-color: $color-tertiary;
-    border: 0.2rem solid red;
-    padding: 0.5rem 0 0.5rem 0.5rem;
-    cursor: pointer;
-  }
+  .jn-select {
+    &__container {
+      position: relative;
+      display: flex;
+      place-items: center;
+      gap: $input-container-item-gap;
+      width: $input-container-width;
+      border-radius: $border-radius;
+      background-color: $input-bg-color;
+      border: $input-container-border;
+      padding: $input-container-padding;
+      cursor: pointer;
 
-  &__value {
-    flex: 1;
-  }
+      &--active {
+        border-color: $color-accent;
+      }
 
-  &__clear {
-    background: transparent;
-    outline: none;
-    border: none;
-    color: $color-secondary;
-    font-size: 1.5rem;
-    width: 1.5rem;
-    height: 1.5rem;
-    border-radius: 50%;
-    transition: background-color $transition;
-    cursor: pointer;
-
-    &:hover {
-      background-color: rgba($color-secondary, 0.1);
-    }
-  }
-
-  &__divider {
-    background-color: $color-secondary;
-    align-self: stretch;
-    width: 0.05rem;
-  }
-
-  &__caret {
-    translate: 0 25%;
-    border: 0.25rem solid transparent;
-    border-top-color: $color-secondary;
-    margin: 0 0.5rem;
-  }
-
-  &__options {
-    position: absolute;
-    left: 0;
-    top: calc(100% + 0.3rem);
-    width: 100%;
-    max-height: 10rem;
-    overflow-y: auto;
-    list-style: none;
-    z-index: 100;
-    visibility: hidden;
-    height: 0;
-    box-shadow: 0 0.5rem 0.5rem 0.25rem rgba($color-secondary, 0.2);
-    border-radius: $border-radius;
-    background-color: $color-tertiary;
-
-    &.show {
-      visibility: visible;
-      height: auto;
-    }
-  }
-
-  &__item {
-    padding: 0.5rem;
-    transition: background-color $transition;
-
-    &:hover {
-      background-color: rgba($color-accent, 0.3);
+      &--disabled {
+        cursor: auto;
+      }
     }
 
-    &.selected {
-      background-color: rgba($color-accent, 0.2);
+    &__text {
+      color: $input-color-text;
+      flex: 1;
+      font-size: $input-font-size;
+
+      &--input {
+        border: none;
+        background-color: transparent;
+        outline: none;
+        width: 100%;
+      }
+
+      &--placeholder {
+        color: rgba($color-secondary, 0.5);
+      }
+    }
+
+    &__clear {
+      background: transparent;
+      outline: none;
+      border: none;
+      color: $input-color;
+      font-size: $input-btn-clear-size;
+      width: $input-btn-clear-size;
+      height: $input-btn-clear-size;
+      border-radius: 50%;
+      transition: background-color $transition;
+      cursor: pointer;
+
+      &:hover {
+        background-color: rgba($input-color, 0.1);
+      }
+    }
+
+    &__divider {
+      background-color: $input-color;
+      align-self: stretch;
+      width: 0.05rem;
+    }
+
+    &__caret {
+      translate: 0 25%;
+      border: 0.25rem solid transparent;
+      border-top-color: $input-color;
+      margin: 0 0.5rem;
+    }
+
+    &__options {
+      position: absolute;
+      left: 0;
+      top: calc(100% + 0.5rem);
+      width: 100%;
+      overflow-y: auto;
+      list-style: none;
+      z-index: 100;
+      visibility: hidden;
+      height: 0;
+      max-height: $input-options-max-height;
+      box-shadow: $box-shadow;
+      border: 0.5rem solid $input-bg-color;
+      border-radius: $border-radius;
+      background-color: $input-bg-color;
+      opacity: 0%;
+      line-height: 1.5;
+      transition: height $transition, opacity $transition;
+
+      &.show {
+        visibility: visible;
+        height: auto;
+        opacity: 100%;
+      }
+    }
+
+    &__item {
+      padding: $input-items-padding;
+      transition: background-color $transition;
+      background-color: transparent;
+
+      &:hover {
+        background-color: rgba($color-accent, 0.3);
+      }
+
+      &.selected {
+        background-color: rgba($color-accent, 0.2);
+      }
     }
   }
 }
