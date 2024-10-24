@@ -23,20 +23,27 @@ export const getRecipient = (): IRecipient => {
   };
 };
 
-export const generateTextContent = (recipients: IRecipient[]) => {
+export const generateRecipientSummary = (
+  recipients: IRecipient[],
+  markdown = false
+) => {
   return recipients
     .map((recipient) => {
       if (!recipient.recipient.value) return '';
-      const recipientLine = `${recipient.recipient.value} - ${recipient.totalPoints}`;
+      const recipientLine = `${markdown ? '### ' : ''}${
+        recipient.recipient.value
+      } - ${recipient.totalPoints}`;
 
       const ticketsLines = recipient.tickets
         .map((ticket) => {
           if (!ticket.epic.value) return '';
-          return `${ticket.epic.value} - ${ticket.points}`;
+          return `${markdown ? ' - ' : ''}${ticket.epic.value} - ${
+            ticket.points
+          }`;
         })
         .join('\n');
 
-      return `\n${recipientLine}\n\n${ticketsLines}\n`;
+      return `\n${recipientLine}\n${ticketsLines}`;
     })
     .join('\n');
 };
@@ -60,9 +67,14 @@ export const generateEpicSummary = (recipients: IRecipient[]) => {
     });
   });
 
+  const overallTotal = Object.values(epicTotals).reduce(
+    (acc, num) => acc + num,
+    0
+  );
+
   const summaryLines = Object.entries(epicTotals)
     .map(([epic, totalPoints]) => `${epic} - ${totalPoints}`)
     .join('\n');
 
-  return summaryLines;
+  return [summaryLines, overallTotal];
 };

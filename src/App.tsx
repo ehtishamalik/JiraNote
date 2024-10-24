@@ -5,13 +5,14 @@ import './styles/index.scss';
 import { IRecipient, SelectOption } from './types';
 import {
   generateEpicSummary,
-  generateTextContent,
+  generateRecipientSummary,
   getRecipient,
   getTikcet,
 } from './utils';
 
 function App() {
   const [recipients, setRecipients] = useState<IRecipient[]>([getRecipient()]);
+  const [textContent, setTextContent] = useState<string>('');
 
   const handleAddMore = (formId: string) => {
     const index = recipients.findIndex((res) => res.id === formId);
@@ -77,25 +78,32 @@ function App() {
     }
   };
 
+  const handleChangeTextArea = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const { value } = event.target;
+
+    if (value) setTextContent(value);
+  };
+
   const handleExport = () => {
-    const textContent = generateTextContent(recipients);
-    const epicSummary = generateEpicSummary(recipients);
-    const blob = new Blob(
-      [
-        '\n**** Recipients Summary ****\n',
-        textContent,
-        '\n\n\n**** Epic Summary ****\n\n',
-        epicSummary,
-      ],
-      {
-        type: 'text/plain',
-      }
-    );
+    const recipientSummary = generateRecipientSummary(recipients, true);
+    const blob = new Blob(['\n## Spring Goals\n', recipientSummary, '\n'], {
+      type: 'text/plain',
+    });
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
-    link.download = 'JiraNotes.txt';
+    link.download = 'JiraNotes.md';
     link.click();
     URL.revokeObjectURL(link.href); // Cleanup
+  };
+
+  const handleView = () => {
+    const recipientSummary = generateRecipientSummary(recipients);
+    const [epicSummary, overallTotal] = generateEpicSummary(recipients);
+    setTextContent(
+      `**** Recipients Summary ****\n${recipientSummary}\n\n\n**** Epics Summary ****\nTotal: ${overallTotal}\n\n${epicSummary}\n`
+    );
   };
 
   const handleAddAnother = () => {
@@ -107,18 +115,34 @@ function App() {
     <>
       <Header
         addAnotherCallback={handleAddAnother}
+        viewCallback={handleView}
         exportCallback={handleExport}
       />
-      {recipients.map((recipient, index) => (
-        <Form
-          key={index}
-          formData={recipient}
-          recipientsChangeCallback={handleRecipientsChange}
-          addMoreCallback={handleAddMore}
-          epicChangeCallback={handleEpicChange}
-          pointsChangeCallback={handlePointsChange}
-        />
-      ))}
+      <main className="page-layout">
+        <div className="page-layout__container">
+          <div className="page-layout__forms">
+            {recipients.map((recipient, index) => (
+              <Form
+                key={index}
+                formData={recipient}
+                recipientsChangeCallback={handleRecipientsChange}
+                addMoreCallback={handleAddMore}
+                epicChangeCallback={handleEpicChange}
+                pointsChangeCallback={handlePointsChange}
+              />
+            ))}
+          </div>
+          <div className="page-layout__textarea">
+            <textarea
+              name="recipient-summary"
+              id="recipient-summary-textarea"
+              placeholder="Recipient Summary..."
+              value={textContent}
+              onChange={handleChangeTextArea}
+            ></textarea>
+          </div>
+        </div>
+      </main>
     </>
   );
 }

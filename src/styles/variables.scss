@@ -34,13 +34,14 @@ $text-normal: 400;
 $text-bold: 500;
 $text-bolder: 600;
 
-$font-familty: "Poppins", sans-serif;
+$font-family: "Poppins", sans-serif;
 
 $line-height: 1;
 
 // Standards
 $transition: 0.2s linear;
-$box-shadow: 0 0.5rem 0.5rem 0.25rem rgba($color-secondary, 0.2);
+$box-shadow: 0 $sm $sm $xs rgba($color-secondary, 0.3);
+$box-shadow-light: 0 $xxs $md rgba($color-secondary, 0.15);
 $text-shadow: 0.1rem 0.1rem 0 $color-white,
   0.25rem 0.25rem 0 $color-accent-hover;
 

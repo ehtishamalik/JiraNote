@@ -7,6 +7,7 @@
       justify-content: space-between;
       align-items: center;
       padding: $padding calc($padding / 2);
+      margin-bottom: $gap;
     }
 
     &__heading {
@@ -23,12 +24,47 @@
   }
 }
 
+.page-layout {
+  .page-layout {
+    &__container {
+      display: flex;
+      flex-direction: row;
+      gap: calc($gap * 2);
+    }
+
+    &__forms {
+      flex: 1;
+    }
+
+    &__textarea {
+      flex: 1;
+      box-shadow: $box-shadow-light;
+      margin-bottom: $gap;
+
+      textarea {
+        resize: none;
+        height: 100%;
+        outline: none;
+        font-family: $font-family;
+        color: $input-color-text;
+        font-size: $input-font-size;
+        width: $input-container-width;
+        border-radius: $input-border-radius;
+        background-color: $input-bg-color;
+        border: $input-container-border;
+        padding: calc($input-items-padding * 2);
+      }
+    }
+  }
+}
+
 .jn-form {
   .jn-form {
     &__container {
       padding: $padding;
       background-color: var(--bg-color);
       border-radius: $border-radius-outer;
+      box-shadow: $box-shadow-light;
       margin-bottom: $gap;
     }
 
