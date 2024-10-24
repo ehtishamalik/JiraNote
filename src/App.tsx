@@ -3,7 +3,12 @@ import { Form } from './components/Form';
 import { Header } from './components/Header';
 import './styles/index.scss';
 import { IRecipient, SelectOption } from './types';
-import { getRecipient, getTikcet } from './utils';
+import {
+  generateEpicSummary,
+  generateTextContent,
+  getRecipient,
+  getTikcet,
+} from './utils';
 
 function App() {
   const [recipients, setRecipients] = useState<IRecipient[]>([getRecipient()]);
@@ -46,8 +51,6 @@ function App() {
   };
 
   const handleEpicChange = (value: SelectOption, key: string) => {
-    console.log(value);
-
     const [recipientsIndex, ticketIndex] = getIndexes(key);
     if (recipientsIndex > -1 && ticketIndex > -1) {
       const newRecipients = [...recipients];
@@ -55,25 +58,44 @@ function App() {
       if (!value.value) {
         newRecipients[recipientsIndex].tickets[ticketIndex].points = 0;
       }
-      console.log(newRecipients);
-
       setRecipients(newRecipients);
     }
   };
 
   const handlePointsChange = (value: string, key: string) => {
-    if (isNaN(value as unknown as number)) return;
     const [recipientsIndex, ticketIndex] = getIndexes(key);
     if (recipientsIndex > -1 && ticketIndex > -1) {
-      const validValue = isNaN(value as unknown as number) ? 0 : Number(value);
       const newRecipients = [...recipients];
+      const validValue = isNaN(value as unknown as number) ? 0 : Number(value);
       newRecipients[recipientsIndex].tickets[ticketIndex].points = validValue;
+      const totalPoints = newRecipients[recipientsIndex].tickets.reduce(
+        (sum, ticket) => sum + ticket.points,
+        0
+      );
+      newRecipients[recipientsIndex].totalPoints = totalPoints;
       setRecipients(newRecipients);
     }
   };
 
   const handleExport = () => {
-    console.log(recipients);
+    const textContent = generateTextContent(recipients);
+    const epicSummary = generateEpicSummary(recipients);
+    const blob = new Blob(
+      [
+        '\n**** Recipients Summary ****\n',
+        textContent,
+        '\n\n\n**** Epic Summary ****\n\n',
+        epicSummary,
+      ],
+      {
+        type: 'text/plain',
+      }
+    );
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'JiraNotes.txt';
+    link.click();
+    URL.revokeObjectURL(link.href); // Cleanup
   };
 
   const handleAddAnother = () => {
