@@ -1,0 +1,66 @@
+[
+  {
+    "label": "Integrate New Operating Accounting WCs into Monolith",
+    "value": "Integrate New Operating Accounting WCs into Monolith"
+  },
+  {
+    "label": "[React] Import Clio / PP Clients and Matters",
+    "value": "[React] Import Clio / PP Clients and Matters"
+  },
+  {
+    "label": "User Issues and Bugs on Production 2024",
+    "value": "User Issues and Bugs on Production 2024"
+  },
+  {
+    "label": "PP Integration and API Support 2024",
+    "value": "PP Integration and API Support 2024"
+  },
+  {
+    "label": "WC Operating Onboarding Feedback",
+    "value": "WC Operating Onboarding Feedback"
+  },
+  {
+    "label": "[React] Import Lawpay Deposits",
+    "value": "[React] Import Lawpay Deposits"
+  },
+  {
+    "label": "WC Chart of Accounts feedback",
+    "value": "WC Chart of Accounts feedback"
+  },
+  {
+    "label": "Simplify Reconciliation Logic",
+    "value": "Simplify Reconciliation Logic"
+  },
+  {
+    "label": "TB API - Omni Transfer v1.2",
+    "value": "TB API - Omni Transfer v1.2"
+  },
+  {
+    "label": "Runtime Balance Calculation",
+    "value": "Runtime Balance Calculation"
+  },
+  {
+    "label": "Credit Card Reconciliations",
+    "value": "Credit Card Reconciliations"
+  },
+  {
+    "label": "WC Journal Entry Feedback",
+    "value": "WC Journal Entry Feedback"
+  },
+  {
+    "label": "Dependency Cleanup 2024",
+    "value": "Dependency Cleanup 2024"
+  },
+  {
+    "label": "Check Number Fix",
+    "value": "Check Number Fix"
+  },
+  {
+    "label": "Feature Requests",
+    "value": "Feature Requests"
+  },
+  {
+    "label": "Readme Updates",
+    "value": "Readme Updates"
+  }
+]
