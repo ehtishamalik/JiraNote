@@ -2,11 +2,17 @@ import { useState } from 'react';
 import { Form } from './components/Form';
 import { Header } from './components/Header';
 import './styles/index.scss';
-import { IRecipient, SelectOptionValue } from './types';
-import { getRecipient, getTikcet } from './utils';
+import { IRecipient, SelectOption } from './types';
+import {
+  generateEpicSummary,
+  generateRecipientSummary,
+  getRecipient,
+  getTikcet,
+} from './utils';
 
 function App() {
   const [recipients, setRecipients] = useState<IRecipient[]>([getRecipient()]);
+  const [textContent, setTextContent] = useState<string>('');
 
   const handleAddMore = (formId: string) => {
     const index = recipients.findIndex((res) => res.id === formId);
@@ -35,13 +41,7 @@ function App() {
     return [-1, -1];
   };
 
-  const handleRecipientsChange = (
-    value: SelectOptionValue,
-    _label: string,
-    key: string
-  ) => {
-    console.log(value);
-
+  const handleRecipientsChange = (value: SelectOption, key: string) => {
     const recipientsIndex = recipients.findIndex((res) => res.id === key);
 
     if (recipientsIndex > -1) {
@@ -51,16 +51,12 @@ function App() {
     }
   };
 
-  const handleEpicChange = (
-    value: SelectOptionValue,
-    _label: string,
-    key: string
-  ) => {
+  const handleEpicChange = (value: SelectOption, key: string) => {
     const [recipientsIndex, ticketIndex] = getIndexes(key);
     if (recipientsIndex > -1 && ticketIndex > -1) {
       const newRecipients = [...recipients];
       newRecipients[recipientsIndex].tickets[ticketIndex].epic = value;
-      if (!value) {
+      if (!value.value) {
         newRecipients[recipientsIndex].tickets[ticketIndex].points = 0;
       }
       setRecipients(newRecipients);
@@ -68,18 +64,46 @@ function App() {
   };
 
   const handlePointsChange = (value: string, key: string) => {
-    if (isNaN(value as unknown as number)) return;
     const [recipientsIndex, ticketIndex] = getIndexes(key);
     if (recipientsIndex > -1 && ticketIndex > -1) {
-      const validValue = isNaN(value as unknown as number) ? 0 : Number(value);
       const newRecipients = [...recipients];
+      const validValue = isNaN(value as unknown as number) ? 0 : Number(value);
       newRecipients[recipientsIndex].tickets[ticketIndex].points = validValue;
+      const totalPoints = newRecipients[recipientsIndex].tickets.reduce(
+        (sum, ticket) => sum + ticket.points,
+        0
+      );
+      newRecipients[recipientsIndex].totalPoints = totalPoints;
       setRecipients(newRecipients);
     }
   };
 
+  const handleChangeTextArea = (
+    event: React.ChangeEvent<HTMLTextAreaElement>
+  ) => {
+    const { value } = event.target;
+
+    if (value) setTextContent(value);
+  };
+
   const handleExport = () => {
-    console.log(recipients);
+    const recipientSummary = generateRecipientSummary(recipients, true);
+    const blob = new Blob(['\n## Spring Goals\n', recipientSummary, '\n'], {
+      type: 'text/plain',
+    });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = 'JiraNotes.md';
+    link.click();
+    URL.revokeObjectURL(link.href); // Cleanup
+  };
+
+  const handleView = () => {
+    const recipientSummary = generateRecipientSummary(recipients);
+    const [epicSummary, overallTotal] = generateEpicSummary(recipients);
+    setTextContent(
+      `**** Recipients Summary ****\n${recipientSummary}\n\n\n**** Epics Summary ****\nTotal: ${overallTotal}\n\n${epicSummary}\n`
+    );
   };
 
   const handleAddAnother = () => {
@@ -91,18 +115,34 @@ function App() {
     <>
       <Header
         addAnotherCallback={handleAddAnother}
+        viewCallback={handleView}
         exportCallback={handleExport}
       />
-      {recipients.map((recipient, index) => (
-        <Form
-          key={index}
-          formData={recipient}
-          recipientsChangeCallback={handleRecipientsChange}
-          addMoreCallback={handleAddMore}
-          epicChangeCallback={handleEpicChange}
-          pointsChangeCallback={handlePointsChange}
-        />
-      ))}
+      <main className="page-layout">
+        <div className="page-layout__container">
+          <div className="page-layout__forms">
+            {recipients.map((recipient, index) => (
+              <Form
+                key={index}
+                formData={recipient}
+                recipientsChangeCallback={handleRecipientsChange}
+                addMoreCallback={handleAddMore}
+                epicChangeCallback={handleEpicChange}
+                pointsChangeCallback={handlePointsChange}
+              />
+            ))}
+          </div>
+          <div className="page-layout__textarea">
+            <textarea
+              name="recipient-summary"
+              id="recipient-summary-textarea"
+              placeholder="Recipient Summary..."
+              value={textContent}
+              onChange={handleChangeTextArea}
+            ></textarea>
+          </div>
+        </div>
+      </main>
     </>
   );
 }

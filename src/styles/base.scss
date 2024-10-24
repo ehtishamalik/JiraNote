@@ -14,14 +14,14 @@
 }
 
 body {
-  font-family: $font-familty;
+  font-family: $font-family;
   color: $color-primary;
   background-color: $color-tertiary;
   line-height: $line-height;
   font-weight: $text-normal;
   min-width: $breakpoint-sm;
   max-width: $breakpoint-xxl;
-  padding: 0 2rem;
+  padding: 0 $padding;
   margin: 0 auto;
 }
 

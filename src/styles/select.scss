@@ -8,7 +8,7 @@
       place-items: center;
       gap: $input-container-item-gap;
       width: $input-container-width;
-      border-radius: $border-radius;
+      border-radius: $input-border-radius;
       background-color: $input-bg-color;
       border: $input-container-border;
       padding: $input-container-padding;
@@ -16,6 +16,18 @@
 
       &--active {
         border-color: $color-accent;
+
+        .jn-select__caret {
+          translate: 0 -25%;
+          rotate: 180deg;
+          border-top-color: $color-accent;
+        }
+
+        .jn-select__options {
+          visibility: visible;
+          height: auto;
+          opacity: 100%;
+        }
       }
 
       &--disabled {
@@ -73,7 +85,7 @@
     &__options {
       position: absolute;
       left: 0;
-      top: calc(100% + 0.5rem);
+      top: calc(100% + 0.1rem);
       width: 100%;
       overflow-y: auto;
       list-style: none;
@@ -83,25 +95,26 @@
       max-height: $input-options-max-height;
       box-shadow: $box-shadow;
       border: 0.5rem solid $input-bg-color;
-      border-radius: $border-radius;
+      border-radius: $input-border-radius;
       background-color: $input-bg-color;
       opacity: 0%;
       line-height: 1.5;
       transition: height $transition, opacity $transition;
-
-      &.show {
-        visibility: visible;
-        height: auto;
-        opacity: 100%;
-      }
     }
 
     &__item {
-      padding: $input-items-padding;
-      transition: background-color $transition;
       background-color: transparent;
+      transition: background-color $transition;
+      border-radius: $input-border-radius;
+      padding: $input-items-padding;
+      font-weight: $text-bold;
+      font-size: $md;
 
-      &:hover {
+      &--disabled {
+        cursor: auto;
+      }
+
+      &:hover:not(.jn-select__item--disabled) {
         background-color: rgba($color-accent, 0.3);
       }
 

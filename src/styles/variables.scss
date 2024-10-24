@@ -3,8 +3,23 @@ $color-white: rgb(250, 250, 250);
 $color-primary: rgb(26, 26, 26);
 $color-secondary: rgb(36, 36, 36);
 $color-tertiary: rgb(230, 230, 230);
+$color-border: rgb(204, 204, 204);
 $color-accent: rgb(100, 108, 255);
 $color-accent-hover: rgb(83, 91, 242);
+
+// Fixed values
+$xxs: 0.1rem;
+$xs: 0.25rem;
+$sm: 0.5rem;
+$md: 0.75rem;
+$lg: 1rem;
+$xl: 1.25rem;
+$xxl: 1.5rem;
+$xxxl: 2rem;
+$padding: $lg;
+$gap: $padding;
+$border-radius-inner: $xs;
+$border-radius-outer: $sm;
 
 // Breakpoints
 $breakpoint-sm: 36rem;
@@ -19,47 +34,48 @@ $text-normal: 400;
 $text-bold: 500;
 $text-bolder: 600;
 
-$font-familty: "Poppins", sans-serif;
+$font-family: "Poppins", sans-serif;
 
 $line-height: 1;
 
 // Standards
 $transition: 0.2s linear;
-$border-radius: 0.5rem;
-$box-shadow: 0 0.5rem 0.5rem 0.25rem rgba($color-secondary, 0.2);
+$box-shadow: 0 $sm $sm $xs rgba($color-secondary, 0.3);
+$box-shadow-light: 0 $xxs $md rgba($color-secondary, 0.15);
 $text-shadow: 0.1rem 0.1rem 0 $color-white,
   0.25rem 0.25rem 0 $color-accent-hover;
 
 // Buttons
 $button-color: $color-tertiary;
 $button-font-weight: $text-bold;
-$button-letter-spacing: 0.1rem;
+$button-letter-spacing: $xxs;
 $button-line-height: 1;
-$button-border-radius: 0.6rem;
+$button-border-radius: $border-radius-inner;
 
-$button-small-gap: 0.3rem;
-$button-small-padding: 0.4rem 0.5rem;
-$button-small-font-size: 0.8rem;
-$button-small-icon-size: 1rem;
+$button-small-gap: $xs;
+$button-small-padding: $xs $sm;
+$button-small-font-size: $md;
+$button-small-icon-size: $lg;
 
-$button-medium-gap: 0.3rem;
-$button-medium-padding: 0.6rem 0.8rem;
-$button-medium-font-size: 1rem;
+$button-medium-gap: $xs;
+$button-medium-padding: $sm $md;
+$button-medium-font-size: $lg;
 
-$button-large-gap: 0.5rem;
-$button-large-padding: 0.8rem 1rem;
-$button-large-font-size: 1.2rem;
+$button-large-gap: $sm;
+$button-large-padding: $md $lg;
+$button-large-font-size: $xl;
 
 // Input Fields
 $input-container-width: 100%;
-$input-container-padding: 0.5rem 0 0.5rem 0.5rem;
-$input-container-border: 0.15rem solid $color-secondary;
-$input-container-item-gap: 0.2rem;
-$input-items-padding: 0.5rem;
-$input-font-size: 1.2rem;
+$input-container-padding: $xs 0 $xs $xs;
+$input-container-border: $xxs solid rgba($color-secondary, 0.5);
+$input-container-item-gap: $xs;
+$input-items-padding: $xs;
+$input-font-size: $lg;
 $input-bg-color: $color-white;
 $input-color: $color-secondary;
 $input-color-text: $color-primary;
 $input-color-placeholder: rgba($color-secondary, 0.5);
-$input-btn-clear-size: 1.5rem;
+$input-btn-clear-size: $xl;
+$input-border-radius: $border-radius-inner;
 $input-options-max-height: 16rem;

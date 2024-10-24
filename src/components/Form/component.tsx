@@ -48,19 +48,19 @@ export const Form = ({
             />
           </div>
         </div>
-        <div className="jn-form__grid">
+        <div className="jn-form__layout">
           {tickets.map((ticket, index) => (
             <div key={index} className="jn-form__row">
               <SearchSelect
                 id={`${id}-${ticket.id}-epic`}
                 selectedValue={ticket.epic}
-                disabled={!recipient}
+                disabled={!recipient.value}
                 onChangeCallback={epicChangeCallback}
               />
               <InputField
                 id={`${id}-${ticket.id}-point`}
                 inputType="number"
-                disabled={!ticket.epic}
+                disabled={!ticket.epic.value}
                 value={ticket.points}
                 onChangeCallback={pointsChangeCallback}
               />
