@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Form } from './components/Form';
 import { Header } from './components/Header';
 import './styles/index.scss';
-import { IRecipient, SelectOptionValue } from './types';
+import { IRecipient, SelectOption } from './types';
 import { getRecipient, getTikcet } from './utils';
 
 function App() {
@@ -35,13 +35,7 @@ function App() {
     return [-1, -1];
   };
 
-  const handleRecipientsChange = (
-    value: SelectOptionValue,
-    _label: string,
-    key: string
-  ) => {
-    console.log(value);
-
+  const handleRecipientsChange = (value: SelectOption, key: string) => {
     const recipientsIndex = recipients.findIndex((res) => res.id === key);
 
     if (recipientsIndex > -1) {
@@ -51,18 +45,18 @@ function App() {
     }
   };
 
-  const handleEpicChange = (
-    value: SelectOptionValue,
-    _label: string,
-    key: string
-  ) => {
+  const handleEpicChange = (value: SelectOption, key: string) => {
+    console.log(value);
+
     const [recipientsIndex, ticketIndex] = getIndexes(key);
     if (recipientsIndex > -1 && ticketIndex > -1) {
       const newRecipients = [...recipients];
       newRecipients[recipientsIndex].tickets[ticketIndex].epic = value;
-      if (!value) {
+      if (!value.value) {
         newRecipients[recipientsIndex].tickets[ticketIndex].points = 0;
       }
+      console.log(newRecipients);
+
       setRecipients(newRecipients);
     }
   };

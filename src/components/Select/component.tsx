@@ -1,5 +1,5 @@
 import { SelectProps } from './types';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, MouseEvent } from 'react';
 import clsx from 'clsx';
 import { SelectOption } from '../../types';
 import { fetchOptions } from '../../api';
@@ -14,7 +14,7 @@ export const Select = ({
 
   const selectedLabel: string = useMemo(() => {
     const selectedOption = options.filter(
-      (item) => item.value === selectedValue
+      (item) => item.value === selectedValue.value
     );
     return selectedOption.length > 0 ? selectedOption[0].label : '';
   }, [selectedValue, options]);
@@ -28,13 +28,15 @@ export const Select = ({
     loadOptions();
   }, []);
 
-  const handleOnChange = (option: SelectOption) => () => {
-    onChangeCallback?.(option.value, option.label, id);
+  const handleOnChange = (event: MouseEvent<HTMLUListElement>) => {
+    const target = event.target as HTMLElement;
+    const { dataset } = target;
+    onChangeCallback?.(dataset as SelectOption, id);
   };
 
-  const handleReset = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleReset = (event: MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
-    onChangeCallback?.('', '', id);
+    onChangeCallback?.({ label: '', value: '' }, id);
   };
 
   return (
@@ -42,7 +44,7 @@ export const Select = ({
       <div
         id={id}
         className={clsx('jn-select__container', {
-          active: isOpen,
+          'jn-select__container--active': isOpen,
         })}
         tabIndex={0}
         onBlur={() => setIsOpen(false)}
@@ -62,17 +64,14 @@ export const Select = ({
         </button>
         <span className="jn-select__divider"></span>
         <span className="jn-select__caret"></span>
-        <ul
-          className={clsx('jn-select__options', {
-            show: isOpen,
-          })}
-        >
+        <ul className="jn-select__options" onClick={handleOnChange}>
           {options.map((option, index) => (
             <li
               key={index}
-              onClick={handleOnChange(option)}
+              data-label={option.label}
+              data-value={option.value}
               className={clsx('jn-select__item', {
-                selected: option.value === selectedValue,
+                selected: option.value === selectedValue.value,
               })}
             >
               {option.label}

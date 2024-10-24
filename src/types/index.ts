@@ -1,19 +1,17 @@
-export type SelectOptionValue = string;
-
 export type SelectOption = {
   label: string;
-  value: SelectOptionValue;
+  value: string;
 };
 
 export interface ITicket {
   id: string;
-  epic: string;
+  epic: SelectOption;
   points: number;
 }
 
 export interface IRecipient {
   id: string;
-  recipient: string;
+  recipient: SelectOption;
   totalPoints: number;
   tickets: ITicket[];
 }

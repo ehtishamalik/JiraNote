@@ -1,11 +1,7 @@
-import { SelectOptionValue } from '../../types';
+import { SelectOption } from '../../types';
 
 export type SelectProps = {
   id: string;
-  selectedValue: SelectOptionValue;
-  onChangeCallback?: (
-    value: SelectOptionValue,
-    label: string,
-    key: string
-  ) => void;
+  selectedValue: SelectOption;
+  onChangeCallback?: (selected: SelectOption, key: string) => void;
 };

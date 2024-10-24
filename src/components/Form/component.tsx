@@ -13,8 +13,6 @@ export const Form = ({
   epicChangeCallback,
   pointsChangeCallback,
 }: FormProps) => {
-  console.log('form');
-
   const { id, recipient, totalPoints, tickets } = formData;
 
   const Styles = useMemo(() => {
@@ -56,13 +54,13 @@ export const Form = ({
               <SearchSelect
                 id={`${id}-${ticket.id}-epic`}
                 selectedValue={ticket.epic}
-                disabled={!recipient}
+                disabled={!recipient.value}
                 onChangeCallback={epicChangeCallback}
               />
               <InputField
                 id={`${id}-${ticket.id}-point`}
                 inputType="number"
-                disabled={!ticket.epic}
+                disabled={!ticket.epic.value}
                 value={ticket.points}
                 onChangeCallback={pointsChangeCallback}
               />

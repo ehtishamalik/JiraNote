@@ -1,12 +1,8 @@
-import { SelectOptionValue } from '../../types';
+import { SelectOption } from '../../types';
 
 export type SearchSelectProps = {
   id: string;
-  selectedValue: SelectOptionValue;
+  selectedValue: SelectOption;
   disabled?: boolean;
-  onChangeCallback?: (
-    value: SelectOptionValue,
-    label: string,
-    key: string
-  ) => void;
+  onChangeCallback?: (value: SelectOption, key: string) => void;
 };

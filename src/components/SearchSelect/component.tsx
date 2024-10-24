@@ -1,5 +1,5 @@
 import { SearchSelectProps } from './types';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState, MouseEvent } from 'react';
 import clsx from 'clsx';
 import { SelectOption } from '../../types';
 import { fetchOptions } from '../../api';
@@ -17,7 +17,7 @@ export const SearchSelect = ({
 
   const selectedLabel: string = useMemo(() => {
     const selectedOption = options.filter(
-      (item) => item.value === selectedValue
+      (item) => item.value === selectedValue.value
     );
     return selectedOption.length > 0 ? selectedOption[0].label : '';
   }, [selectedValue, options]);
@@ -54,17 +54,23 @@ export const SearchSelect = ({
     setIsOpen(true);
   };
 
-  const handleOnChangeOption =
-    (option: SelectOption) => (event: React.MouseEvent<HTMLLIElement>) => {
-      event.stopPropagation();
-      onChangeCallback?.(option.value, option.label, id);
-      setSearchText('');
-      setIsOpen(false);
-    };
-
-  const handleReset = (event: React.MouseEvent<HTMLButtonElement>) => {
+  const handleOnChangeOption = (event: MouseEvent<HTMLUListElement>) => {
     event.stopPropagation();
-    onChangeCallback?.('', '', id);
+    const target = event.target as HTMLElement;
+    const { dataset } = target;
+
+    if (dataset.noClick === 'true') {
+      return; // Prevent further execution
+    }
+
+    onChangeCallback?.(dataset as SelectOption, id);
+    setSearchText('');
+    setIsOpen(false);
+  };
+
+  const handleReset = (event: MouseEvent<HTMLButtonElement>) => {
+    event.stopPropagation();
+    onChangeCallback?.({ label: '', value: '' }, id);
   };
 
   const handleBlur = (event: React.FocusEvent<HTMLDivElement>) => {
@@ -79,7 +85,6 @@ export const SearchSelect = ({
   const handleChangeInput = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
     setSearchText(value);
-    onChangeCallback?.('', '', id);
   };
 
   return (
@@ -116,6 +121,7 @@ export const SearchSelect = ({
         <span className="jn-select__divider"></span>
         <span className="jn-select__caret"></span>
         <ul
+          onClick={handleOnChangeOption}
           className={clsx('jn-select__options', {
             show: isOpen,
           })}
@@ -124,16 +130,21 @@ export const SearchSelect = ({
             options.map((option, index) => (
               <li
                 key={index}
-                onClick={handleOnChangeOption(option)}
+                data-label={option.label}
+                data-value={option.value}
                 className={clsx('jn-select__item', {
-                  selected: option.value === selectedValue,
+                  selected: option.value === selectedValue.value,
                 })}
               >
                 {option.label}
               </li>
             ))
           ) : (
-            <li key={-1} className={clsx('jn-select__item')}>
+            <li
+              key={-1}
+              data-no-click="true"
+              className="jn-select__item jn-select__item--disabled"
+            >
               No Result
             </li>
           )}
