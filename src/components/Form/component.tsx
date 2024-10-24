@@ -13,6 +13,8 @@ export const Form = ({
   epicChangeCallback,
   pointsChangeCallback,
 }: FormProps) => {
+  console.log('form');
+
   const { id, recipient, totalPoints, tickets } = formData;
 
   const Styles = useMemo(() => {

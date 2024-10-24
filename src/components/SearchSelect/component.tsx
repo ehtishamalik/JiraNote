@@ -1,8 +1,8 @@
 import { SearchSelectProps } from './types';
-import epicsJson from '../../json/epics.json';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import clsx from 'clsx';
 import { SelectOption } from '../../types';
+import { fetchOptions } from '../../api';
 
 export const SearchSelect = ({
   id,
@@ -10,11 +10,10 @@ export const SearchSelect = ({
   disabled = false,
   onChangeCallback,
 }: SearchSelectProps) => {
-  const Epics: SelectOption[] = epicsJson;
-
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>('');
-  const [options, setOptions] = useState<SelectOption[]>(Epics);
+  const [Epics, setEpics] = useState<SelectOption[]>([]);
+  const [options, setOptions] = useState<SelectOption[]>([]);
 
   const selectedLabel: string = useMemo(() => {
     const selectedOption = options.filter(
@@ -25,6 +24,16 @@ export const SearchSelect = ({
 
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const loadOptions = async () => {
+      const value = await fetchOptions('/json/epics.json');
+      setOptions(value);
+      setEpics(value);
+    };
+
+    loadOptions();
+  }, []);
 
   useEffect(() => {
     if (isOpen) {

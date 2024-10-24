@@ -1,8 +1,8 @@
 import { SelectProps } from './types';
-import recipientJson from '../../json/recipient.json';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import clsx from 'clsx';
 import { SelectOption } from '../../types';
+import { fetchOptions } from '../../api';
 
 export const Select = ({
   id,
@@ -10,13 +10,23 @@ export const Select = ({
   onChangeCallback,
 }: SelectProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const options: SelectOption[] = useMemo(() => recipientJson, []);
+  const [options, setOptions] = useState<SelectOption[]>([]);
+
   const selectedLabel: string = useMemo(() => {
     const selectedOption = options.filter(
       (item) => item.value === selectedValue
     );
     return selectedOption.length > 0 ? selectedOption[0].label : '';
   }, [selectedValue, options]);
+
+  useEffect(() => {
+    const loadOptions = async () => {
+      const value = await fetchOptions('/json/recipients.json');
+      setOptions(value);
+    };
+
+    loadOptions();
+  }, []);
 
   const handleOnChange = (option: SelectOption) => () => {
     onChangeCallback?.(option.value, option.label, id);
