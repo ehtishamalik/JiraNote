@@ -48,7 +48,7 @@ export const Form = ({
             />
           </div>
         </div>
-        <div className="jn-form__grid">
+        <div className="jn-form__layout">
           {tickets.map((ticket, index) => (
             <div key={index} className="jn-form__row">
               <SearchSelect

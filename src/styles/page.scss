@@ -6,19 +6,19 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 1rem;
+      padding: $padding calc($padding / 2);
     }
 
     &__heading {
       text-transform: capitalize;
-      font-size: 2.5rem;
+      font-size: $xxxl;
       text-shadow: $text-shadow;
     }
 
     &__actions {
       display: inline-flex;
       place-items: center;
-      gap: 1rem;
+      gap: $gap;
     }
   }
 }
@@ -26,23 +26,22 @@
 .jn-form {
   .jn-form {
     &__container {
-      padding: 2rem;
+      padding: $padding;
       background-color: var(--bg-color);
-      border-radius: $border-radius;
-      margin-bottom: 1rem;
+      border-radius: $border-radius-outer;
+      margin-bottom: $gap;
     }
 
     &__header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 1rem;
-      margin-bottom: 2rem;
+      gap: $gap;
+      margin-bottom: calc($gap * 2);
 
       &--values {
         display: inline-flex;
-        gap: 1rem;
-        flex: 1;
+        gap: $gap;
 
         .jn-select {
           min-width: 18rem;
@@ -51,44 +50,30 @@
 
       &--total {
         display: inline-flex;
-        justify-content: center;
         place-items: center;
-        width: 100%;
-        max-width: 5rem;
-        background-color: $color-white;
-        border: $input-container-border;
-        border-radius: $border-radius;
+        justify-content: center;
+        background: transparent;
         font-size: $input-font-size;
-        padding: $input-items-padding;
+        gap: $gap;
+
+        &::before {
+          content: "-";
+          display: inline-block;
+        }
       }
     }
 
-    &__grid {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(16rem, 1fr));
-      gap: 1rem 4rem;
-
-      @media (max-width: $breakpoint-lg) {
-        gap: 1rem 2rem;
-      }
-
-      @media (max-width: $breakpoint-md) {
-        grid-template-columns: repeat(1, minmax(16rem, 1fr));
-      }
+    &__layout {
+      display: flex;
+      flex-direction: column;
+      gap: $gap;
     }
 
     &__row {
-      display: flex;
-      gap: 1rem;
+      display: grid;
+      grid-template-columns: 1fr 0.25fr;
       align-items: center;
-
-      .jn-select {
-        flex: 1;
-      }
-
-      .jn-inputfield {
-        flex: 0.3;
-      }
+      gap: $gap;
     }
   }
 }

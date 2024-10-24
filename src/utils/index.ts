@@ -26,10 +26,14 @@ export const getRecipient = (): IRecipient => {
 export const generateTextContent = (recipients: IRecipient[]) => {
   return recipients
     .map((recipient) => {
+      if (!recipient.recipient.value) return '';
       const recipientLine = `${recipient.recipient.value} - ${recipient.totalPoints}`;
 
       const ticketsLines = recipient.tickets
-        .map((ticket) => `${ticket.epic.value} - ${ticket.points}`)
+        .map((ticket) => {
+          if (!ticket.epic.value) return '';
+          return `${ticket.epic.value} - ${ticket.points}`;
+        })
         .join('\n');
 
       return `\n${recipientLine}\n\n${ticketsLines}\n`;
@@ -37,18 +41,17 @@ export const generateTextContent = (recipients: IRecipient[]) => {
     .join('\n');
 };
 
-export const generateEpicSummary = (data: IRecipient[]) => {
+export const generateEpicSummary = (recipients: IRecipient[]) => {
   const epicTotals: {
     [epic: string]: number;
   } = {};
 
-  // Aggregate points for each epic
-  data.forEach((recipient) => {
+  recipients.forEach((recipient) => {
     recipient.tickets.forEach((ticket) => {
+      if (!ticket.epic.value) return '';
       const epicValue = ticket.epic.value;
       const points = ticket.points;
 
-      // If the epic already exists, add the points; otherwise, initialize it
       if (epicTotals[epicValue]) {
         epicTotals[epicValue] += points;
       } else {
@@ -57,7 +60,6 @@ export const generateEpicSummary = (data: IRecipient[]) => {
     });
   });
 
-  // Format the summary string
   const summaryLines = Object.entries(epicTotals)
     .map(([epic, totalPoints]) => `${epic} - ${totalPoints}`)
     .join('\n');

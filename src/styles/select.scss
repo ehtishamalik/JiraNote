@@ -8,7 +8,7 @@
       place-items: center;
       gap: $input-container-item-gap;
       width: $input-container-width;
-      border-radius: $border-radius;
+      border-radius: $input-border-radius;
       background-color: $input-bg-color;
       border: $input-container-border;
       padding: $input-container-padding;
@@ -20,6 +20,7 @@
         .jn-select__caret {
           translate: 0 -25%;
           rotate: 180deg;
+          border-top-color: $color-accent;
         }
 
         .jn-select__options {
@@ -94,7 +95,7 @@
       max-height: $input-options-max-height;
       box-shadow: $box-shadow;
       border: 0.5rem solid $input-bg-color;
-      border-radius: $border-radius;
+      border-radius: $input-border-radius;
       background-color: $input-bg-color;
       opacity: 0%;
       line-height: 1.5;
@@ -102,9 +103,12 @@
     }
 
     &__item {
-      padding: $input-items-padding;
-      transition: background-color $transition;
       background-color: transparent;
+      transition: background-color $transition;
+      border-radius: $input-border-radius;
+      padding: $input-items-padding;
+      font-weight: $text-bold;
+      font-size: $md;
 
       &--disabled {
         cursor: auto;

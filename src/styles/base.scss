@@ -21,7 +21,7 @@ body {
   font-weight: $text-normal;
   min-width: $breakpoint-sm;
   max-width: $breakpoint-xxl;
-  padding: 0 2rem;
+  padding: 0 $padding;
   margin: 0 auto;
 }
 
