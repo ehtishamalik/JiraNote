@@ -16,9 +16,25 @@
     }
 
     &__heading {
-      text-transform: capitalize;
-      font-size: $xxxl;
-      text-shadow: $text-shadow;
+      &--value {
+        font-size: $xxxl;
+        text-shadow: $text-shadow;
+      }
+
+      &--input {
+        display: inline-flex;
+        align-items: center;
+        gap: calc($gap / 2);
+        .jn-inputfield {
+          &__input {
+            width: var(--input-width);
+            font-size: $xxxl;
+            background-color: $color-tertiary;
+            text-shadow: $text-shadow;
+            font-weight: $text-bolder;
+          }
+        }
+      }
     }
 
     &__actions {

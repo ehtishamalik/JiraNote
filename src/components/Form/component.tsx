@@ -44,7 +44,7 @@ export const Form = ({
               text="add more"
               size="small"
               icon="plus"
-              onclickCallback={handleAddMore}
+              onClickCallback={handleAddMore}
             />
           </div>
         </div>
@@ -60,6 +60,7 @@ export const Form = ({
               <InputField
                 id={`${id}-${ticket.id}-point`}
                 inputType="number"
+                placeholder="0"
                 disabled={!ticket.epic.value}
                 value={ticket.points}
                 onChangeCallback={pointsChangeCallback}

@@ -1,7 +1,8 @@
 export type InputFieldProps = {
   id: string;
-  value: number;
+  value: string | number;
+  placeholder: string;
   disabled?: boolean;
   inputType: 'text' | 'number';
-  onChangeCallback?: (value: string, key: string) => void;
+  onChangeCallback: (value: string, key: string) => void;
 };
