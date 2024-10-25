@@ -13,6 +13,7 @@ import {
 function App() {
   const [recipients, setRecipients] = useState<IRecipient[]>([getRecipient()]);
   const [textContent, setTextContent] = useState<string>('');
+  const [title, setTitle] = useState<string>('Jira Notes');
 
   const handleAddMore = (formId: string) => {
     const index = recipients.findIndex((res) => res.id === formId);
@@ -86,11 +87,26 @@ function App() {
     if (value) setTextContent(value);
   };
 
+  const handleTitleChange = (value: string) => {
+    setTitle(value);
+  };
+
   const handleExport = () => {
     const recipientSummary = generateRecipientSummary(recipients, true);
-    const blob = new Blob(['\n## Spring Goals\n', recipientSummary, '\n'], {
-      type: 'text/plain',
-    });
+    const EpicSummary = generateEpicSummary(recipients);
+    const blob = new Blob(
+      [
+        '\n# ',
+        title,
+        `\n\n## Total: ${EpicSummary[1]}`,
+        '\n\n',
+        recipientSummary,
+        '\n',
+      ],
+      {
+        type: 'text/plain',
+      }
+    );
     const link = document.createElement('a');
     link.href = URL.createObjectURL(blob);
     link.download = 'JiraNotes.md';
@@ -102,7 +118,7 @@ function App() {
     const recipientSummary = generateRecipientSummary(recipients);
     const [epicSummary, overallTotal] = generateEpicSummary(recipients);
     setTextContent(
-      `**** Recipients Summary ****\n${recipientSummary}\n\n\n**** Epics Summary ****\nTotal: ${overallTotal}\n\n${epicSummary}\n`
+      `${title}\n\n${recipientSummary}\n\n\n**** Epics Summary ****\nTotal: ${overallTotal}\n\n${epicSummary}\n`
     );
   };
 
@@ -114,6 +130,7 @@ function App() {
   return (
     <>
       <Header
+        onTitleChange={handleTitleChange}
         addAnotherCallback={handleAddAnother}
         viewCallback={handleView}
         exportCallback={handleExport}

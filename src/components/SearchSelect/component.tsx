@@ -63,7 +63,17 @@ export const SearchSelect = ({
       return; // Prevent further execution
     }
 
-    onChangeCallback?.(dataset as SelectOption, id);
+    if (dataset.add === 'true' && dataset.label && dataset.value) {
+      const newValue: SelectOption = {
+        label: dataset.label,
+        value: dataset.value,
+      };
+      onChangeCallback(newValue, id);
+      setEpics([...Epics, newValue]);
+    } else {
+      onChangeCallback(dataset as SelectOption, id);
+    }
+
     setSearchText('');
     setIsOpen(false);
   };
@@ -97,6 +107,7 @@ export const SearchSelect = ({
           'jn-select__container--disabled': disabled,
         })}
         tabIndex={0}
+        title={selectedLabel}
         onBlur={handleBlur}
         onClick={handleOnOpen}
       >
@@ -140,13 +151,24 @@ export const SearchSelect = ({
               </li>
             ))
           ) : (
-            <li
-              key={-1}
-              data-no-click="true"
-              className="jn-select__item jn-select__item--disabled"
-            >
-              No Result
-            </li>
+            <>
+              <li
+                key={0}
+                data-no-click="true"
+                className="jn-select__item jn-select__item--no-result jn-select__item--disabled"
+              >
+                No Result - Select below to add
+              </li>
+              <li
+                key={1}
+                data-label={searchText}
+                data-value={searchText}
+                data-add="true"
+                className="jn-select__item"
+              >
+                {searchText}
+              </li>
+            </>
           )}
         </ul>
       </div>

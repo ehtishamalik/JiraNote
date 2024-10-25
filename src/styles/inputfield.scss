@@ -12,6 +12,10 @@
       border: $input-container-border;
       padding: $input-items-padding;
 
+      &:disabled {
+        cursor: not-allowed;
+      }
+
       &--number {
         text-align: right;
       }

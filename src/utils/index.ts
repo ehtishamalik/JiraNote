@@ -43,9 +43,9 @@ export const generateRecipientSummary = (
         })
         .join('\n');
 
-      return `\n${recipientLine}\n${ticketsLines}`;
+      return `${recipientLine}\n${ticketsLines}\n\n`;
     })
-    .join('\n');
+    .join('');
 };
 
 export const generateEpicSummary = (recipients: IRecipient[]) => {
@@ -77,4 +77,12 @@ export const generateEpicSummary = (recipients: IRecipient[]) => {
     .join('\n');
 
   return [summaryLines, overallTotal];
+};
+
+export const capitalizeAllWords = (string: string) => {
+  if (!string) return '';
+  return string
+    .split(' ')
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+    .join(' ');
 };

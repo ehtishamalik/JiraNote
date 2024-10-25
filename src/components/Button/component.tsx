@@ -7,7 +7,7 @@ export const Button = ({
   text,
   icon,
   size = 'medium',
-  onclickCallback,
+  onClickCallback,
 }: ButtonProps) => {
   let buttonIcon = '';
   switch (icon) {
@@ -23,7 +23,7 @@ export const Button = ({
     <button
       type="button"
       className={clsx('jn-button', `jn-button__${size}`)}
-      onClick={() => onclickCallback?.()}
+      onClick={() => onClickCallback()}
     >
       {buttonIcon && (
         <span className="jn-button__icon">

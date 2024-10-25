@@ -3,13 +3,14 @@ import { InputFieldProps } from './types';
 export const InputField = ({
   id,
   value,
+  placeholder,
   disabled = false,
   inputType,
   onChangeCallback,
 }: InputFieldProps) => {
   const handleOnChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
-    onChangeCallback?.(value, id);
+    onChangeCallback(value, id);
   };
 
   return (
@@ -21,7 +22,7 @@ export const InputField = ({
         name={`${id}-name`}
         type={inputType}
         value={value || ''}
-        placeholder="0"
+        placeholder={placeholder}
         disabled={disabled}
         onChange={handleOnChange}
       />
