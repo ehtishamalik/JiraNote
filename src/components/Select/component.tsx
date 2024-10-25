@@ -49,6 +49,7 @@ export const Select = ({
         tabIndex={0}
         onBlur={() => setIsOpen(false)}
         onClick={() => setIsOpen(!isOpen)}
+        title={selectedLabel}
       >
         {selectedLabel ? (
           <span className="jn-select__text jn-select__text--value">

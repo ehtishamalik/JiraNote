@@ -97,6 +97,7 @@ export const SearchSelect = ({
           'jn-select__container--disabled': disabled,
         })}
         tabIndex={0}
+        title={selectedLabel}
         onBlur={handleBlur}
         onClick={handleOnOpen}
       >

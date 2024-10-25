@@ -31,7 +31,11 @@
       }
 
       &--disabled {
-        cursor: auto;
+        cursor: not-allowed;
+
+        .jn-select__text--input {
+          cursor: not-allowed;
+        }
       }
     }
 

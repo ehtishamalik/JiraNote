@@ -102,7 +102,7 @@ function App() {
     const recipientSummary = generateRecipientSummary(recipients);
     const [epicSummary, overallTotal] = generateEpicSummary(recipients);
     setTextContent(
-      `**** Recipients Summary ****\n${recipientSummary}\n\n\n**** Epics Summary ****\nTotal: ${overallTotal}\n\n${epicSummary}\n`
+      `**** Recipients Summary ****\n\n${recipientSummary}\n\n\n**** Epics Summary ****\nTotal: ${overallTotal}\n\n${epicSummary}\n`
     );
   };
 

@@ -8,6 +8,11 @@
       align-items: center;
       padding: $padding calc($padding / 2);
       margin-bottom: $gap;
+
+      @media (max-width: $breakpoint-md) {
+        flex-direction: column;
+        gap: $gap;
+      }
     }
 
     &__heading {
@@ -20,6 +25,11 @@
       display: inline-flex;
       place-items: center;
       gap: $gap;
+
+      @media (max-width: $breakpoint-md) {
+        justify-content: space-between;
+        width: 100%;
+      }
     }
   }
 }
@@ -30,6 +40,10 @@
       display: flex;
       flex-direction: row;
       gap: calc($gap * 2);
+
+      @media (max-width: $breakpoint-md) {
+        flex-direction: column;
+      }
     }
 
     &__forms {
@@ -47,12 +61,18 @@
         outline: none;
         font-family: $font-family;
         color: $input-color-text;
-        font-size: $input-font-size;
+        font-size: $md;
         width: $input-container-width;
         border-radius: $input-border-radius;
         background-color: $input-bg-color;
         border: $input-container-border;
         padding: calc($input-items-padding * 2);
+
+        @media (max-width: $breakpoint-md) {
+          min-height: calc(
+            $input-options-max-height + $input-options-max-height
+          );
+        }
       }
     }
   }
@@ -82,6 +102,10 @@
         .jn-select {
           min-width: 18rem;
         }
+      }
+
+      &--actions {
+        min-width: 6rem;
       }
 
       &--total {

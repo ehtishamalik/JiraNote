@@ -43,9 +43,9 @@ export const generateRecipientSummary = (
         })
         .join('\n');
 
-      return `\n${recipientLine}\n${ticketsLines}`;
+      return `${recipientLine}\n${ticketsLines}\n\n`;
     })
-    .join('\n');
+    .join('');
 };
 
 export const generateEpicSummary = (recipients: IRecipient[]) => {
