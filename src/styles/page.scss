@@ -41,6 +41,10 @@
       flex-direction: row;
       gap: calc($gap * 2);
 
+      @media (max-width: $breakpoint-lg) {
+        gap: $gap;
+      }
+
       @media (max-width: $breakpoint-md) {
         flex-direction: column;
       }
@@ -67,11 +71,10 @@
         background-color: $input-bg-color;
         border: $input-container-border;
         padding: calc($input-items-padding * 2);
+        min-height: $input-options-max-height;
 
         @media (max-width: $breakpoint-md) {
-          min-height: calc(
-            $input-options-max-height + $input-options-max-height
-          );
+          min-height: calc($input-options-max-height * 2);
         }
       }
     }
@@ -86,6 +89,10 @@
       border-radius: $border-radius-outer;
       box-shadow: $box-shadow-light;
       margin-bottom: $gap;
+
+      @media (max-width: $breakpoint-md) {
+        margin-bottom: calc($gap * 2);
+      }
     }
 
     &__header {

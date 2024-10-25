@@ -31,12 +31,12 @@ export const Select = ({
   const handleOnChange = (event: MouseEvent<HTMLUListElement>) => {
     const target = event.target as HTMLElement;
     const { dataset } = target;
-    onChangeCallback?.(dataset as SelectOption, id);
+    onChangeCallback(dataset as SelectOption, id);
   };
 
   const handleReset = (event: MouseEvent<HTMLButtonElement>) => {
     event.stopPropagation();
-    onChangeCallback?.({ label: '', value: '' }, id);
+    onChangeCallback({ label: '', value: '' }, id);
   };
 
   return (
