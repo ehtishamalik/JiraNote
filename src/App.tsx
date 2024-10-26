@@ -1,16 +1,16 @@
 import { useEffect, useState } from 'react';
+import { IRecipient, SelectOption } from './types';
 import { Form } from './components/Form';
 import { Header } from './components/Header';
-import { IRecipient, SelectOption } from './types';
-import {
-  generateEpicSummary,
-  generateRecipientSummary,
-  getRecipient,
-  getTikcet,
-  handleFileExport,
-} from './utils';
 import { fetchOptions } from './api';
 import { formContext } from './contexts';
+import {
+  generateRecipientSummary,
+  generateEpicSummary,
+  handleFileExport,
+  getRecipient,
+  getTikcet,
+} from './utils';
 import './styles/index.scss';
 
 function App() {

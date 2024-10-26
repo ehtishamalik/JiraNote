@@ -26,21 +26,25 @@ export const getRecipient = (): IRecipient => {
 export const generateRecipientSummary = (
   recipients: IRecipient[],
   markdown = false
-) => {
+): string => {
   return recipients
     .map((recipient) => {
       if (!recipient.recipient.value) return '';
+
       const recipientLine = `${markdown ? '### ' : ''}${
         recipient.recipient.value
       } - ${recipient.totalPoints}`;
 
-      const ticketsLines = recipient.tickets
-        .map((ticket) => {
-          if (!ticket.epic.value) return '';
-          return `${markdown ? ' - ' : ''}${ticket.epic.value} - ${
-            ticket.points
-          }`;
-        })
+      const epicPointsMap: Record<string, number> = {};
+
+      recipient.tickets.forEach((ticket) => {
+        if (!ticket.epic.value) return;
+        epicPointsMap[ticket.epic.value] =
+          (epicPointsMap[ticket.epic.value] || 0) + ticket.points;
+      });
+
+      const ticketsLines = Object.entries(epicPointsMap)
+        .map(([epic, points]) => `${markdown ? ' - ' : ''}${epic} - ${points}`)
         .join('\n');
 
       return `${recipientLine}\n${ticketsLines}\n\n`;
@@ -49,9 +53,7 @@ export const generateRecipientSummary = (
 };
 
 export const generateEpicSummary = (recipients: IRecipient[]) => {
-  const epicTotals: {
-    [epic: string]: number;
-  } = {};
+  const epicTotals: Record<string, number> = {};
 
   recipients.forEach((recipient) => {
     recipient.tickets.forEach((ticket) => {
