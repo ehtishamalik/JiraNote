@@ -1,8 +1,15 @@
 import { SearchSelectProps } from './types';
-import { useEffect, useMemo, useRef, useState, MouseEvent } from 'react';
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  MouseEvent,
+  useContext,
+} from 'react';
 import clsx from 'clsx';
 import { SelectOption } from '../../types';
-import { fetchOptions } from '../../api';
+import { formContext } from '../../contexts';
 
 export const SearchSelect = ({
   id,
@@ -10,9 +17,10 @@ export const SearchSelect = ({
   disabled = false,
   onChangeCallback,
 }: SearchSelectProps) => {
+  const { Epics, updateEpics } = useContext(formContext);
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>('');
-  const [Epics, setEpics] = useState<SelectOption[]>([]);
   const [options, setOptions] = useState<SelectOption[]>([]);
 
   const selectedLabel: string = useMemo(() => {
@@ -24,16 +32,6 @@ export const SearchSelect = ({
 
   const inputRef = useRef<HTMLInputElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const loadOptions = async () => {
-      const value = await fetchOptions('/json/epics.json');
-      setOptions(value);
-      setEpics(value);
-    };
-
-    loadOptions();
-  }, []);
 
   useEffect(() => {
     if (isOpen) {
@@ -69,7 +67,7 @@ export const SearchSelect = ({
         value: dataset.value,
       };
       onChangeCallback(newValue, id);
-      setEpics([...Epics, newValue]);
+      updateEpics(newValue);
     } else {
       onChangeCallback(dataset as SelectOption, id);
     }

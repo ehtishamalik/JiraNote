@@ -1,32 +1,24 @@
 import { SelectProps } from './types';
-import { useEffect, useMemo, useState, MouseEvent } from 'react';
+import { useMemo, useState, MouseEvent, useContext } from 'react';
 import clsx from 'clsx';
 import { SelectOption } from '../../types';
-import { fetchOptions } from '../../api';
+import { formContext } from '../../contexts';
 
 export const Select = ({
   id,
   selectedValue,
   onChangeCallback,
 }: SelectProps) => {
+  const { Recipients } = useContext(formContext);
+
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [options, setOptions] = useState<SelectOption[]>([]);
 
   const selectedLabel: string = useMemo(() => {
-    const selectedOption = options.filter(
+    const selectedOption = Recipients.filter(
       (item) => item.value === selectedValue.value
     );
     return selectedOption.length > 0 ? selectedOption[0].label : '';
-  }, [selectedValue, options]);
-
-  useEffect(() => {
-    const loadOptions = async () => {
-      const value = await fetchOptions('/json/recipients.json');
-      setOptions(value);
-    };
-
-    loadOptions();
-  }, []);
+  }, [selectedValue, Recipients]);
 
   const handleOnChange = (event: MouseEvent<HTMLUListElement>) => {
     const target = event.target as HTMLElement;
@@ -66,7 +58,7 @@ export const Select = ({
         <span className="jn-select__divider"></span>
         <span className="jn-select__caret"></span>
         <ul className="jn-select__options" onClick={handleOnChange}>
-          {options.map((option, index) => (
+          {Recipients.map((option, index) => (
             <li
               key={index}
               data-label={option.label}
