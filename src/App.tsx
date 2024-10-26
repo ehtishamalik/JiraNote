@@ -1,37 +1,64 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Form } from './components/Form';
 import { Header } from './components/Header';
-import './styles/index.scss';
 import { IRecipient, SelectOption } from './types';
 import {
   generateEpicSummary,
   generateRecipientSummary,
   getRecipient,
   getTikcet,
+  handleFileExport,
 } from './utils';
+import { fetchOptions } from './api';
+import { formContext } from './contexts';
+import './styles/index.scss';
 
 function App() {
-  const [recipients, setRecipients] = useState<IRecipient[]>([getRecipient()]);
+  const [Recipients, setRecipients] = useState<SelectOption[]>([]);
+  const [Epics, setEpics] = useState<SelectOption[]>([]);
+  const [recipientsValues, setRecipientsValues] = useState<IRecipient[]>([
+    getRecipient(),
+  ]);
   const [textContent, setTextContent] = useState<string>('');
   const [title, setTitle] = useState<string>('Jira Notes');
 
+  useEffect(() => {
+    const loadOptions = async () => {
+      const value = await fetchOptions('/json/recipients.json');
+      setRecipients(value);
+    };
+
+    loadOptions();
+  }, []);
+
+  useEffect(() => {
+    const loadOptions = async () => {
+      const value = await fetchOptions('/json/epics.json');
+      setEpics(value);
+    };
+
+    loadOptions();
+  }, []);
+
   const handleAddMore = (formId: string) => {
-    const index = recipients.findIndex((res) => res.id === formId);
+    const index = recipientsValues.findIndex((res) => res.id === formId);
     if (index > -1) {
-      const newRecipients = [...recipients];
+      const newRecipients = [...recipientsValues];
       newRecipients[index].tickets = [
         ...newRecipients[index].tickets,
         getTikcet(),
       ];
-      setRecipients(newRecipients);
+      setRecipientsValues(newRecipients);
     }
   };
 
   const getIndexes = (key: string) => {
     const [formId, rowId] = key.split('-');
-    const recipientsIndex = recipients.findIndex((res) => res.id === formId);
+    const recipientsIndex = recipientsValues.findIndex(
+      (res) => res.id === formId
+    );
     if (recipientsIndex > -1) {
-      const recipientsTickets = recipients[recipientsIndex].tickets;
+      const recipientsTickets = recipientsValues[recipientsIndex].tickets;
       const ticketIndex = recipientsTickets.findIndex(
         (ticket) => ticket.id === rowId
       );
@@ -43,31 +70,31 @@ function App() {
   };
 
   const handleRecipientsChange = (value: SelectOption, key: string) => {
-    const recipientsIndex = recipients.findIndex((res) => res.id === key);
+    const recipientsIndex = recipientsValues.findIndex((res) => res.id === key);
 
     if (recipientsIndex > -1) {
-      const newRecipients = [...recipients];
+      const newRecipients = [...recipientsValues];
       newRecipients[recipientsIndex].recipient = value;
-      setRecipients(newRecipients);
+      setRecipientsValues(newRecipients);
     }
   };
 
   const handleEpicChange = (value: SelectOption, key: string) => {
     const [recipientsIndex, ticketIndex] = getIndexes(key);
     if (recipientsIndex > -1 && ticketIndex > -1) {
-      const newRecipients = [...recipients];
+      const newRecipients = [...recipientsValues];
       newRecipients[recipientsIndex].tickets[ticketIndex].epic = value;
       if (!value.value) {
         newRecipients[recipientsIndex].tickets[ticketIndex].points = 0;
       }
-      setRecipients(newRecipients);
+      setRecipientsValues(newRecipients);
     }
   };
 
   const handlePointsChange = (value: string, key: string) => {
     const [recipientsIndex, ticketIndex] = getIndexes(key);
     if (recipientsIndex > -1 && ticketIndex > -1) {
-      const newRecipients = [...recipients];
+      const newRecipients = [...recipientsValues];
       const validValue = isNaN(value as unknown as number) ? 0 : Number(value);
       newRecipients[recipientsIndex].tickets[ticketIndex].points = validValue;
       const totalPoints = newRecipients[recipientsIndex].tickets.reduce(
@@ -75,7 +102,7 @@ function App() {
         0
       );
       newRecipients[recipientsIndex].totalPoints = totalPoints;
-      setRecipients(newRecipients);
+      setRecipientsValues(newRecipients);
     }
   };
 
@@ -92,39 +119,24 @@ function App() {
   };
 
   const handleExport = () => {
-    const recipientSummary = generateRecipientSummary(recipients, true);
-    const EpicSummary = generateEpicSummary(recipients);
-    const blob = new Blob(
-      [
-        '\n# ',
-        title,
-        `\n\n## Total: ${EpicSummary[1]}`,
-        '\n\n',
-        recipientSummary,
-        '\n',
-      ],
-      {
-        type: 'text/plain',
-      }
-    );
-    const link = document.createElement('a');
-    link.href = URL.createObjectURL(blob);
-    link.download = 'JiraNotes.md';
-    link.click();
-    URL.revokeObjectURL(link.href); // Cleanup
+    handleFileExport(recipientsValues, title);
   };
 
   const handleView = () => {
-    const recipientSummary = generateRecipientSummary(recipients);
-    const [epicSummary, overallTotal] = generateEpicSummary(recipients);
+    const recipientSummary = generateRecipientSummary(recipientsValues);
+    const [epicSummary, overallTotal] = generateEpicSummary(recipientsValues);
     setTextContent(
       `${title}\n\n${recipientSummary}\n\n\n**** Epics Summary ****\nTotal: ${overallTotal}\n\n${epicSummary}\n`
     );
   };
 
   const handleAddAnother = () => {
-    const newRecipients = [...recipients, getRecipient()];
-    setRecipients(newRecipients);
+    const newRecipients = [...recipientsValues, getRecipient()];
+    setRecipientsValues(newRecipients);
+  };
+
+  const handleUpdateEpics = (value: SelectOption) => {
+    setEpics([...Epics, value]);
   };
 
   return (
@@ -138,16 +150,20 @@ function App() {
       <main className="page-layout">
         <div className="page-layout__container">
           <div className="page-layout__forms">
-            {recipients.map((recipient, index) => (
-              <Form
-                key={index}
-                formData={recipient}
-                recipientsChangeCallback={handleRecipientsChange}
-                addMoreCallback={handleAddMore}
-                epicChangeCallback={handleEpicChange}
-                pointsChangeCallback={handlePointsChange}
-              />
-            ))}
+            <formContext.Provider
+              value={{ Epics, Recipients, updateEpics: handleUpdateEpics }}
+            >
+              {recipientsValues.map((recipient, index) => (
+                <Form
+                  key={index}
+                  formData={recipient}
+                  recipientsChangeCallback={handleRecipientsChange}
+                  addMoreCallback={handleAddMore}
+                  epicChangeCallback={handleEpicChange}
+                  pointsChangeCallback={handlePointsChange}
+                />
+              ))}
+            </formContext.Provider>
           </div>
           <div className="page-layout__textarea">
             <textarea

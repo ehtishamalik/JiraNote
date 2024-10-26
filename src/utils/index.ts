@@ -86,3 +86,26 @@ export const capitalizeAllWords = (string: string) => {
     .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
     .join(' ');
 };
+
+export const handleFileExport = (recipients: IRecipient[], title: string) => {
+  const recipientSummary = generateRecipientSummary(recipients, true);
+  const EpicSummary = generateEpicSummary(recipients);
+  const blob = new Blob(
+    [
+      '\n# ',
+      title,
+      `\n\n## Total: ${EpicSummary[1]}`,
+      '\n\n',
+      recipientSummary,
+      '\n',
+    ],
+    {
+      type: 'text/plain',
+    }
+  );
+  const link = document.createElement('a');
+  link.href = URL.createObjectURL(blob);
+  link.download = 'JiraNotes.md';
+  link.click();
+  URL.revokeObjectURL(link.href); // Cleanup
+};
