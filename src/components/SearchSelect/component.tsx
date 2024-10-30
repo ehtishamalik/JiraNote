@@ -61,15 +61,16 @@ export const SearchSelect = ({
       return; // Prevent further execution
     }
 
+    const value: SelectOption = {
+      label: dataset.label ?? '',
+      value: dataset.value ?? '',
+    };
+
     if (dataset.add === 'true' && dataset.label && dataset.value) {
-      const newValue: SelectOption = {
-        label: dataset.label,
-        value: dataset.value,
-      };
-      onChangeCallback(newValue, id);
-      updateEpics(newValue);
+      onChangeCallback(value, id);
+      updateEpics(value);
     } else {
-      onChangeCallback(dataset as SelectOption, id);
+      onChangeCallback(value, id);
     }
 
     setSearchText('');
@@ -124,9 +125,11 @@ export const SearchSelect = ({
             Select an Epic
           </span>
         )}
-        <button className="jn-select__clear" onClick={handleReset}>
-          &times;
-        </button>
+        {!disabled && selectedLabel && (
+          <button className="jn-select__clear" onClick={handleReset}>
+            &times;
+          </button>
+        )}
         <span className="jn-select__divider"></span>
         <span className="jn-select__caret"></span>
         <ul

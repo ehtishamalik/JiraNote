@@ -1,6 +1,6 @@
 import { ButtonProps } from './types';
-import IconPlus from '../../assets/icon-plus.svg';
-import IconExport from '../../assets/icon-export.svg';
+import IconPlus from '/icon-plus.svg';
+import IconExport from '/icon-export.svg';
 import clsx from 'clsx';
 
 export const Button = ({

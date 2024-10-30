@@ -6,4 +6,5 @@ export type FormProps = {
   recipientsChangeCallback: (selected: SelectOption, key: string) => void;
   epicChangeCallback: (selected: SelectOption, key: string) => void;
   pointsChangeCallback: (value: string, key: string) => void;
+  duplicationCallback: (event: React.MouseEvent<HTMLImageElement>) => void;
 };

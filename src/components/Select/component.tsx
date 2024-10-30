@@ -23,7 +23,13 @@ export const Select = ({
   const handleOnChange = (event: MouseEvent<HTMLUListElement>) => {
     const target = event.target as HTMLElement;
     const { dataset } = target;
-    onChangeCallback(dataset as SelectOption, id);
+
+    const value: SelectOption = {
+      label: dataset.label ?? '',
+      value: dataset.value ?? '',
+    };
+
+    onChangeCallback(value, id);
   };
 
   const handleReset = (event: MouseEvent<HTMLButtonElement>) => {
@@ -52,9 +58,11 @@ export const Select = ({
             Select a Recipient
           </span>
         )}
-        <button className="jn-select__clear" onClick={handleReset}>
-          &times;
-        </button>
+        {selectedLabel && (
+          <button className="jn-select__clear" onClick={handleReset}>
+            &times;
+          </button>
+        )}
         <span className="jn-select__divider"></span>
         <span className="jn-select__caret"></span>
         <ul className="jn-select__options" onClick={handleOnChange}>

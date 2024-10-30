@@ -1,9 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { IRecipient, SelectOption } from './types';
 import { Form } from './components/Form';
 import { Header } from './components/Header';
-import { fetchOptions } from './api';
-import { formContext } from './contexts';
+import { FormContextProvider } from './contexts';
 import {
   generateRecipientSummary,
   generateEpicSummary,
@@ -14,31 +13,11 @@ import {
 import './styles/index.scss';
 
 function App() {
-  const [Recipients, setRecipients] = useState<SelectOption[]>([]);
-  const [Epics, setEpics] = useState<SelectOption[]>([]);
   const [recipientsValues, setRecipientsValues] = useState<IRecipient[]>([
     getRecipient(),
   ]);
   const [textContent, setTextContent] = useState<string>('');
   const [title, setTitle] = useState<string>('Jira Notes');
-
-  useEffect(() => {
-    const loadOptions = async () => {
-      const value = await fetchOptions('/json/recipients.json');
-      setRecipients(value);
-    };
-
-    loadOptions();
-  }, []);
-
-  useEffect(() => {
-    const loadOptions = async () => {
-      const value = await fetchOptions('/json/epics.json');
-      setEpics(value);
-    };
-
-    loadOptions();
-  }, []);
 
   const handleAddMore = (formId: string) => {
     const index = recipientsValues.findIndex((res) => res.id === formId);
@@ -106,6 +85,24 @@ function App() {
     }
   };
 
+  const handleRowDuplication = (event: React.MouseEvent<HTMLImageElement>) => {
+    const key = event.target as HTMLElement;
+    const [recipientsIndex, ticketIndex] = getIndexes(key.id);
+    if (recipientsIndex > -1 && ticketIndex > -1) {
+      const newRecipients = [...recipientsValues];
+
+      const allTickets = newRecipients[recipientsIndex].tickets;
+      const ticketToDuplicate = {
+        ...newRecipients[recipientsIndex].tickets[ticketIndex],
+        id: String(Date.now()),
+      };
+
+      allTickets.splice(ticketIndex + 1, 0, ticketToDuplicate);
+      newRecipients[recipientsIndex].tickets = allTickets;
+      setRecipientsValues(newRecipients);
+    }
+  };
+
   const handleChangeTextArea = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -135,10 +132,6 @@ function App() {
     setRecipientsValues(newRecipients);
   };
 
-  const handleUpdateEpics = (value: SelectOption) => {
-    setEpics([...Epics, value]);
-  };
-
   return (
     <>
       <Header
@@ -150,9 +143,7 @@ function App() {
       <main className="page-layout">
         <div className="page-layout__container">
           <div className="page-layout__forms">
-            <formContext.Provider
-              value={{ Epics, Recipients, updateEpics: handleUpdateEpics }}
-            >
+            <FormContextProvider>
               {recipientsValues.map((recipient, index) => (
                 <Form
                   key={index}
@@ -161,9 +152,10 @@ function App() {
                   addMoreCallback={handleAddMore}
                   epicChangeCallback={handleEpicChange}
                   pointsChangeCallback={handlePointsChange}
+                  duplicationCallback={handleRowDuplication}
                 />
               ))}
-            </formContext.Provider>
+            </FormContextProvider>
           </div>
           <div className="page-layout__textarea">
             <textarea
