@@ -5,6 +5,7 @@ import { SearchSelect } from '../SearchSelect';
 import { Select } from '../Select';
 import { lightBgColors } from './constants';
 import { FormProps } from './types';
+import DuplicateIcon from '/duplicate.svg';
 
 export const Form = ({
   formData,
@@ -12,6 +13,7 @@ export const Form = ({
   addMoreCallback,
   epicChangeCallback,
   pointsChangeCallback,
+  duplicationCallback,
 }: FormProps) => {
   const { id, recipient, totalPoints, tickets } = formData;
 
@@ -57,6 +59,16 @@ export const Form = ({
                 disabled={!recipient.value}
                 onChangeCallback={epicChangeCallback}
               />
+              <span className="jn-form__row--icon">
+                {recipient.value && ticket.epic.value && (
+                  <img
+                    src={DuplicateIcon}
+                    alt="Duplicate icon"
+                    id={`${id}-${ticket.id}-duplicate`}
+                    onClick={duplicationCallback}
+                  />
+                )}
+              </span>
               <InputField
                 id={`${id}-${ticket.id}-point`}
                 inputType="number"

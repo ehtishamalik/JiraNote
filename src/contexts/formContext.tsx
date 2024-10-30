@@ -1,10 +1,8 @@
-import { createContext, useEffect, useState } from 'react';
-import { FormContextProviderProps, IFormContext } from './types';
-import { InitialFormContext } from './defaults';
+import { useEffect, useState } from 'react';
+import { FormContextProviderProps } from './types';
 import { SelectOption } from '../types';
 import { fetchOptions } from '../api';
-
-export const formContext = createContext<IFormContext>(InitialFormContext);
+import { formContext } from './contexts';
 
 export const FormContextProvider = ({ children }: FormContextProviderProps) => {
   const [Recipients, setRecipients] = useState<SelectOption[]>([]);

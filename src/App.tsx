@@ -85,6 +85,24 @@ function App() {
     }
   };
 
+  const handleRowDuplication = (event: React.MouseEvent<HTMLImageElement>) => {
+    const key = event.target as HTMLElement;
+    const [recipientsIndex, ticketIndex] = getIndexes(key.id);
+    if (recipientsIndex > -1 && ticketIndex > -1) {
+      const newRecipients = [...recipientsValues];
+
+      const allTickets = newRecipients[recipientsIndex].tickets;
+      const ticketToDuplicate = {
+        ...newRecipients[recipientsIndex].tickets[ticketIndex],
+        id: String(Date.now()),
+      };
+
+      allTickets.splice(ticketIndex + 1, 0, ticketToDuplicate);
+      newRecipients[recipientsIndex].tickets = allTickets;
+      setRecipientsValues(newRecipients);
+    }
+  };
+
   const handleChangeTextArea = (
     event: React.ChangeEvent<HTMLTextAreaElement>
   ) => {
@@ -134,6 +152,7 @@ function App() {
                   addMoreCallback={handleAddMore}
                   epicChangeCallback={handleEpicChange}
                   pointsChangeCallback={handlePointsChange}
+                  duplicationCallback={handleRowDuplication}
                 />
               ))}
             </FormContextProvider>
