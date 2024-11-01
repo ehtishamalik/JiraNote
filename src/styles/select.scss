@@ -12,6 +12,7 @@
       background-color: $input-bg-color;
       border: $input-container-border;
       padding: $input-container-padding;
+      outline: none;
       cursor: pointer;
 
       &--active {
