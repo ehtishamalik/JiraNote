@@ -39,6 +39,7 @@ export const generateRecipientSummary = (
 
       recipient.tickets.forEach((ticket) => {
         if (!ticket.epic.value) return;
+        if (!ticket.points) return;
         epicPointsMap[ticket.epic.value] =
           (epicPointsMap[ticket.epic.value] || 0) + ticket.points;
       });
@@ -56,11 +57,13 @@ export const generateEpicSummary = (recipients: IRecipient[]) => {
   const epicTotals: Record<string, number> = {};
 
   recipients.forEach((recipient) => {
+    if (!recipient.recipient.value) return;
     recipient.tickets.forEach((ticket) => {
       if (!ticket.epic.value) return '';
       const epicValue = ticket.epic.value;
       const points = ticket.points;
 
+      if (points === 0) return;
       if (epicTotals[epicValue]) {
         epicTotals[epicValue] += points;
       } else {

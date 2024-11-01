@@ -56,11 +56,10 @@ export const Form = ({
               <SearchSelect
                 id={`${id}-${ticket.id}-epic`}
                 selectedValue={ticket.epic}
-                disabled={!recipient.value}
                 onChangeCallback={epicChangeCallback}
               />
               <span className="jn-form__row--icon">
-                {recipient.value && ticket.epic.value && (
+                {ticket.epic.value && (
                   <img
                     src={DuplicateIcon}
                     alt="Duplicate icon"
