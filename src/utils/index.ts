@@ -31,9 +31,9 @@ export const generateRecipientSummary = (
     .map((recipient) => {
       if (!recipient.recipient.value) return '';
 
-      const recipientLine = `${markdown ? '### ' : ''}${
+      const recipientLine = `${markdown ? '### ' : '**'}${
         recipient.recipient.value
-      } - ${recipient.totalPoints}`;
+      } - ${recipient.totalPoints}${markdown ? '' : '**'}`;
 
       const epicPointsMap: Record<string, number> = {};
 
@@ -45,7 +45,7 @@ export const generateRecipientSummary = (
       });
 
       const ticketsLines = Object.entries(epicPointsMap)
-        .map(([epic, points]) => `${markdown ? ' - ' : ''}${epic} - ${points}`)
+        .map(([epic, points]) => `${markdown ? ' ' : '- '}${epic} - ${points}`)
         .join('\n');
 
       return `${recipientLine}\n${ticketsLines}\n\n`;
@@ -78,7 +78,7 @@ export const generateEpicSummary = (recipients: IRecipient[]) => {
   );
 
   const summaryLines = Object.entries(epicTotals)
-    .map(([epic, totalPoints]) => `${epic} - ${totalPoints}`)
+    .map(([epic, totalPoints]) => `- ${epic} - ${totalPoints}`)
     .join('\n');
 
   return [summaryLines, overallTotal];
@@ -110,7 +110,7 @@ export const handleFileExport = (recipients: IRecipient[], title: string) => {
   );
   const link = document.createElement('a');
   link.href = URL.createObjectURL(blob);
-  link.download = 'JiraNotes.md';
+  link.download = `${title}.md`;
   link.click();
   URL.revokeObjectURL(link.href); // Cleanup
 };

@@ -17,7 +17,7 @@ function App() {
     getRecipient(),
   ]);
   const [textContent, setTextContent] = useState<string>('');
-  const [title, setTitle] = useState<string>('Jira Notes');
+  const [title, setTitle] = useState<string>('Jira Note');
 
   const handleAddMore = (formId: string) => {
     const index = recipientsValues.findIndex((res) => res.id === formId);
