@@ -4,12 +4,7 @@ import { HeaderProps } from './types';
 import { InputField } from '../InputField';
 import { capitalizeAllWords } from '../../utils';
 
-export const Header = ({
-  onTitleChange,
-  exportCallback,
-  viewCallback,
-  addAnotherCallback,
-}: HeaderProps) => {
+export const Header = ({ onTitleChange }: HeaderProps) => {
   const [isActive, setIsActive] = useState<boolean>(false);
   const [title, setTitle] = useState<string>('Jira Note');
 
@@ -37,37 +32,26 @@ export const Header = ({
   return (
     <header className="header">
       <div className="header__container">
-        <div className="header__heading">
-          {isActive ? (
-            <div className="header__heading--input" style={Styles}>
-              <InputField
-                id="heading"
-                value={title}
-                placeholder=""
-                inputType="text"
-                onChangeCallback={handleOnInputChange}
-              />
-              <Button
-                text="save"
-                size="small"
-                onClickCallback={handleOnTitleSave}
-              />
-            </div>
-          ) : (
-            <h1 onClick={handleOnTitleClick} className="header__heading--value">
-              {title}
-            </h1>
-          )}
-        </div>
-        <div className="header__actions">
-          <Button text="view" onClickCallback={viewCallback} />
-          <Button
-            text="export"
-            icon="export"
-            onClickCallback={exportCallback}
-          />
-          <Button text="add another" onClickCallback={addAnotherCallback} />
-        </div>
+        {isActive ? (
+          <div className="header__heading--input" style={Styles}>
+            <InputField
+              id="heading"
+              value={title}
+              placeholder=""
+              inputType="text"
+              onChangeCallback={handleOnInputChange}
+            />
+            <Button
+              text="save"
+              size="small"
+              onClickCallback={handleOnTitleSave}
+            />
+          </div>
+        ) : (
+          <h1 onClick={handleOnTitleClick} className="header__heading--value">
+            {title}
+          </h1>
+        )}
       </div>
     </header>
   );

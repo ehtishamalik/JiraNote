@@ -135,12 +135,7 @@ function App() {
 
   return (
     <>
-      <Header
-        onTitleChange={handleTitleChange}
-        addAnotherCallback={handleAddAnother}
-        viewCallback={handleView}
-        exportCallback={handleExport}
-      />
+      <Header onTitleChange={handleTitleChange} />
       <main className="page-layout">
         <div className="page-layout__container">
           <div className="page-layout__forms">
@@ -171,9 +166,9 @@ function App() {
       </main>
       <Footer
         getCallback={() => {}}
-        exportCallback={() => {}}
-        viewCallback={() => {}}
-        addAnotherCallback={() => {}}
+        exportCallback={handleExport}
+        viewCallback={handleView}
+        addAnotherCallback={handleAddAnother}
       />
     </>
   );
