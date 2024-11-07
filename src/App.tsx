@@ -133,6 +133,10 @@ function App() {
     setRecipientsValues(newRecipients);
   };
 
+  const handleGetData = (data: IRecipient[]) => {
+    setRecipientsValues(data);
+  };
+
   return (
     <>
       <Header title={title} onTitleChange={handleTitleChange} />
@@ -165,7 +169,7 @@ function App() {
         </div>
       </main>
       <Footer
-        getCallback={() => {}}
+        getCallback={handleGetData}
         exportCallback={handleExport}
         viewCallback={handleView}
         addAnotherCallback={handleAddAnother}
