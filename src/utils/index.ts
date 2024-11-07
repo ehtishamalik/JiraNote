@@ -1,4 +1,9 @@
-import { IRecipient, ITicket } from '../types';
+import {
+  ContentResponse,
+  ContentSummarized,
+  IRecipient,
+  ITicket,
+} from '../types';
 
 export const getTikcet = (): ITicket => {
   return {
@@ -45,7 +50,9 @@ export const generateRecipientSummary = (
       });
 
       const ticketsLines = Object.entries(epicPointsMap)
-        .map(([epic, points]) => `${markdown ? ' ' : '- '}${epic} - ${points}`)
+        .map(
+          ([epic, points]) => `${markdown ? ' - ' : '- '}${epic} - ${points}`
+        )
         .join('\n');
 
       return `${recipientLine}\n${ticketsLines}\n\n`;
@@ -81,15 +88,7 @@ export const generateEpicSummary = (recipients: IRecipient[]) => {
     .map(([epic, totalPoints]) => `- ${epic} - ${totalPoints}`)
     .join('\n');
 
-  return [summaryLines, overallTotal];
-};
-
-export const capitalizeAllWords = (string: string) => {
-  if (!string) return '';
-  return string
-    .split(' ')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(' ');
+  return { summaryLines, overallTotal };
 };
 
 export const handleFileExport = (recipients: IRecipient[], title: string) => {
@@ -99,7 +98,7 @@ export const handleFileExport = (recipients: IRecipient[], title: string) => {
     [
       '\n# ',
       title,
-      `\n\n## Total: ${EpicSummary[1]}`,
+      `\n\n## Total: ${EpicSummary.overallTotal}`,
       '\n\n',
       recipientSummary,
       '\n',
@@ -113,4 +112,74 @@ export const handleFileExport = (recipients: IRecipient[], title: string) => {
   link.download = `${title}.md`;
   link.click();
   URL.revokeObjectURL(link.href); // Cleanup
+};
+
+export const getInitials = (name: string) => {
+  return name
+    .split(/\s+/)
+    .map((word) => word.charAt(0).toUpperCase())
+    .join('');
+};
+
+export const ticketsAssignment = (
+  content: ContentSummarized[]
+): IRecipient[] => {
+  const recipientsMap: {
+    [key: string]: {
+      recipient: string;
+      tickets: ITicket[];
+      totalPoints: number;
+    };
+  } = {};
+
+  content.forEach((entry, index) => {
+    const { epic, points, recipient } = entry;
+
+    if (!recipientsMap[recipient]) {
+      recipientsMap[recipient] = {
+        recipient,
+        tickets: [],
+        totalPoints: 0,
+      };
+    }
+
+    const ticket: ITicket = {
+      id: String(index),
+      epic: { label: epic, value: epic },
+      points: points,
+    };
+
+    recipientsMap[recipient].tickets.push(ticket);
+    recipientsMap[recipient].totalPoints += points;
+  });
+
+  const recipients: IRecipient[] = Object.values(recipientsMap).map(
+    (recipientData, index) => ({
+      id: String(index),
+      recipient: {
+        label: recipientData.recipient,
+        value: getInitials(recipientData.recipient),
+      },
+      totalPoints: recipientData.totalPoints,
+      tickets: recipientData.tickets,
+    })
+  );
+
+  return recipients;
+};
+
+export const summarizeTicketsByRecipient = (content: ContentResponse) => {
+  const contentSummarized: ContentSummarized[] = [];
+
+  content.issues.forEach((issue) => {
+    const { customfield_10025, epic, assignee } = issue.fields;
+    if (!epic || !customfield_10025 || !assignee) return;
+    contentSummarized.push({
+      epic: epic.summary,
+      points: customfield_10025,
+      recipient: assignee.displayName,
+    });
+  });
+
+  return ticketsAssignment(contentSummarized);
 };

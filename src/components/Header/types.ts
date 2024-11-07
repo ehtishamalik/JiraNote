@@ -1,6 +1,4 @@
 export type HeaderProps = {
+  title: string;
   onTitleChange: (value: string) => void;
-  exportCallback: () => void;
-  viewCallback: () => void;
-  addAnotherCallback: () => void;
 };

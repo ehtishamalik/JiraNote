@@ -9,8 +9,10 @@ import {
   handleFileExport,
   getRecipient,
   getTikcet,
+  summarizeTicketsByRecipient,
 } from './utils';
 import './styles/index.scss';
+import { Footer } from './components/Footer';
 
 function App() {
   const [recipientsValues, setRecipientsValues] = useState<IRecipient[]>([
@@ -121,9 +123,10 @@ function App() {
 
   const handleView = () => {
     const recipientSummary = generateRecipientSummary(recipientsValues);
-    const [epicSummary, overallTotal] = generateEpicSummary(recipientsValues);
+    const { summaryLines, overallTotal } =
+      generateEpicSummary(recipientsValues);
     setTextContent(
-      `${title}\n\n${recipientSummary}\n\n\n**** Epics Summary ****\nTotal: ${overallTotal}\n\n${epicSummary}\n`
+      `${title}\n\n${recipientSummary}\n\n\n**** Epics Summary ****\nTotal: ${overallTotal}\n\n${summaryLines}\n`
     );
   };
 
@@ -132,14 +135,26 @@ function App() {
     setRecipientsValues(newRecipients);
   };
 
+  const handleGetData = () => {
+    try {
+      const parsedContent = JSON.parse(textContent);
+      if ('issues' in parsedContent) {
+        const data = summarizeTicketsByRecipient(parsedContent);
+        setRecipientsValues(data);
+      } else {
+        console.error('Could not find issues in JSON skipping...');
+        return;
+      }
+    } catch (error) {
+      console.error('JSON is not valid, skipping...');
+      console.error(error);
+      return;
+    }
+  };
+
   return (
     <>
-      <Header
-        onTitleChange={handleTitleChange}
-        addAnotherCallback={handleAddAnother}
-        viewCallback={handleView}
-        exportCallback={handleExport}
-      />
+      <Header title={title} onTitleChange={handleTitleChange} />
       <main className="page-layout">
         <div className="page-layout__container">
           <div className="page-layout__forms">
@@ -168,6 +183,12 @@ function App() {
           </div>
         </div>
       </main>
+      <Footer
+        getCallback={handleGetData}
+        exportCallback={handleExport}
+        viewCallback={handleView}
+        addAnotherCallback={handleAddAnother}
+      />
     </>
   );
 }

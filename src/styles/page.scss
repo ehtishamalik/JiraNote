@@ -4,10 +4,20 @@
   .header {
     &__container {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
-      padding: $padding calc($padding / 2);
+      padding: calc($padding / 2) 0;
       margin-bottom: $gap;
+
+      .jn-inputfield {
+        &__input {
+          width: var(--input-width);
+          font-size: $xxxl;
+          background-color: $color-tertiary;
+          text-shadow: $text-shadow;
+          font-weight: $text-bolder;
+        }
+      }
 
       @media (max-width: $breakpoint-md) {
         flex-direction: column;
@@ -16,41 +26,29 @@
     }
 
     &__heading {
-      &--value {
-        font-size: $xxxl;
-        text-shadow: $text-shadow;
-      }
-
       &--input {
         display: inline-flex;
         align-items: center;
-        gap: calc($gap / 2);
-        .jn-inputfield {
-          &__input {
-            width: var(--input-width);
-            font-size: $xxxl;
-            background-color: $color-tertiary;
-            text-shadow: $text-shadow;
-            font-weight: $text-bolder;
-          }
-        }
+        gap: $gap;
       }
-    }
 
-    &__actions {
-      display: inline-flex;
-      place-items: center;
-      gap: $gap;
-
-      @media (max-width: $breakpoint-md) {
-        justify-content: space-between;
-        width: 100%;
+      &--value {
+        font-size: $xxxl;
+        text-shadow: $text-shadow;
       }
     }
   }
 }
 
 .page-layout {
+  height: 100%;
+  overflow: auto;
+  padding-bottom: $input-options-max-height;
+
+  @media (max-width: $breakpoint-md) {
+    padding-bottom: 0;
+  }
+
   .page-layout {
     &__container {
       display: flex;
@@ -116,7 +114,7 @@
       justify-content: space-between;
       align-items: center;
       gap: $gap;
-      margin-bottom: calc($gap * 2);
+      margin-bottom: calc($gap * 1.5);
 
       &--values {
         display: inline-flex;
@@ -172,6 +170,25 @@
             opacity: 1;
           }
         }
+      }
+    }
+  }
+}
+
+.footer {
+  .footer {
+    &__container {
+      padding: $gap 0;
+    }
+
+    &__actions {
+      display: flex;
+      justify-content: space-between;
+
+      &--left,
+      &--right {
+        display: flex;
+        gap: $gap;
       }
     }
   }

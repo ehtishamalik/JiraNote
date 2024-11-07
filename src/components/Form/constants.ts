@@ -20,6 +20,5 @@ export const lightBgColors = [
   'rgba(255, 20, 147, 0.25)', // Deep Pink
   'rgba(255, 105, 180, 0.25)', // Hot Pink
   'rgba(144, 238, 144, 0.25)', // Light Green
-  'rgba(230, 230, 250, 0.25)', // Lavender
   'rgba(240, 128, 128, 0.25)', // Light Coral
 ];

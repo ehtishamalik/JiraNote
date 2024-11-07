@@ -24,6 +24,7 @@ export const SearchSelect = ({
   const [options, setOptions] = useState<SelectOption[]>([]);
 
   const selectedLabel: string = useMemo(() => {
+    if (!selectedValue.value) return '';
     const selectedOption = options.filter(
       (item) => item.value === selectedValue.value
     );
