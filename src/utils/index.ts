@@ -1,4 +1,9 @@
-import { ContentResponse, IRecipient, ITicket } from '../types';
+import {
+  ContentResponse,
+  ContentSummarized,
+  IRecipient,
+  ITicket,
+} from '../types';
 
 export const getTikcet = (): ITicket => {
   return {
@@ -45,7 +50,9 @@ export const generateRecipientSummary = (
       });
 
       const ticketsLines = Object.entries(epicPointsMap)
-        .map(([epic, points]) => `${markdown ? ' ' : '- '}${epic} - ${points}`)
+        .map(
+          ([epic, points]) => `${markdown ? ' - ' : '- '}${epic} - ${points}`
+        )
         .join('\n');
 
       return `${recipientLine}\n${ticketsLines}\n\n`;
@@ -81,7 +88,7 @@ export const generateEpicSummary = (recipients: IRecipient[]) => {
     .map(([epic, totalPoints]) => `- ${epic} - ${totalPoints}`)
     .join('\n');
 
-  return [summaryLines, overallTotal];
+  return { summaryLines, overallTotal };
 };
 
 export const handleFileExport = (recipients: IRecipient[], title: string) => {
@@ -91,7 +98,7 @@ export const handleFileExport = (recipients: IRecipient[], title: string) => {
     [
       '\n# ',
       title,
-      `\n\n## Total: ${EpicSummary[1]}`,
+      `\n\n## Total: ${EpicSummary.overallTotal}`,
       '\n\n',
       recipientSummary,
       '\n',
@@ -107,7 +114,16 @@ export const handleFileExport = (recipients: IRecipient[], title: string) => {
   URL.revokeObjectURL(link.href); // Cleanup
 };
 
-export const ticketsAssignment = (content: ContentResponse[]): IRecipient[] => {
+export const getInitials = (name: string) => {
+  return name
+    .split(/\s+/)
+    .map((word) => word.charAt(0).toUpperCase())
+    .join('');
+};
+
+export const ticketsAssignment = (
+  content: ContentSummarized[]
+): IRecipient[] => {
   const recipientsMap: {
     [key: string]: {
       recipient: string;
@@ -127,26 +143,22 @@ export const ticketsAssignment = (content: ContentResponse[]): IRecipient[] => {
       };
     }
 
-    // Create the ticket for the recipient
     const ticket: ITicket = {
-      id: String(index), // Generate a unique ID using Date.now()
-      epic: { label: epic, value: epic }, // Set both label and value to the epic
+      id: String(index),
+      epic: { label: epic, value: epic },
       points: points,
     };
 
-    // Add the ticket to the recipient's tickets
     recipientsMap[recipient].tickets.push(ticket);
-    // Update the total points for the recipient
     recipientsMap[recipient].totalPoints += points;
   });
 
-  // Step 2: Convert the grouped data into the final IRecipient array
   const recipients: IRecipient[] = Object.values(recipientsMap).map(
     (recipientData, index) => ({
-      id: String(index), // Generate a unique ID for the recipient
+      id: String(index),
       recipient: {
         label: recipientData.recipient,
-        value: recipientData.recipient,
+        value: getInitials(recipientData.recipient),
       },
       totalPoints: recipientData.totalPoints,
       tickets: recipientData.tickets,
@@ -156,15 +168,15 @@ export const ticketsAssignment = (content: ContentResponse[]): IRecipient[] => {
   return recipients;
 };
 
-export const summarizeTicketsByRecipient = (content: any) => {
-  const contentSummarized: ContentResponse[] = [];
+export const summarizeTicketsByRecipient = (content: ContentResponse) => {
+  const contentSummarized: ContentSummarized[] = [];
 
-  content.issues.forEach((issue: any) => {
+  content.issues.forEach((issue) => {
     const { customfield_10025, epic, assignee } = issue.fields;
-    if (!epic || !customfield_10025) return;
+    if (!epic || !customfield_10025 || !assignee) return;
     contentSummarized.push({
       epic: epic.summary,
-      points: Number(customfield_10025),
+      points: customfield_10025,
       recipient: assignee.displayName,
     });
   });

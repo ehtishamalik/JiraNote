@@ -123,9 +123,10 @@ function App() {
 
   const handleView = () => {
     const recipientSummary = generateRecipientSummary(recipientsValues);
-    const [epicSummary, overallTotal] = generateEpicSummary(recipientsValues);
+    const { summaryLines, overallTotal } =
+      generateEpicSummary(recipientsValues);
     setTextContent(
-      `${title}\n\n${recipientSummary}\n\n\n**** Epics Summary ****\nTotal: ${overallTotal}\n\n${epicSummary}\n`
+      `${title}\n\n${recipientSummary}\n\n\n**** Epics Summary ****\nTotal: ${overallTotal}\n\n${summaryLines}\n`
     );
   };
 

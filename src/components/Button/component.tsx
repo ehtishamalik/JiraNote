@@ -21,11 +21,12 @@ export const Button = ({
       break;
   }
 
-  buttonIcon = isLoading ? IconLoader : '';
+  buttonIcon = isLoading ? IconLoader : buttonIcon;
 
   return (
     <button
       type="button"
+      disabled={isLoading}
       className={clsx('jn-button', `jn-button__${size}`, {
         'jn-button__loading': isLoading,
       })}

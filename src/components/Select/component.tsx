@@ -10,13 +10,12 @@ export const Select = ({
   onChangeCallback,
 }: SelectProps) => {
   const { Recipients } = useContext(formContext);
-
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const selectedLabel: string = useMemo(() => {
     if (!selectedValue.value) return '';
     const selectedOption = Recipients.filter(
-      (item) => item.label === selectedValue.label
+      (item) => item.value === selectedValue.value
     );
     return selectedOption.length > 0 ? selectedOption[0].label : '';
   }, [selectedValue, Recipients]);
