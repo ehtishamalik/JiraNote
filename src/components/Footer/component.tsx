@@ -1,4 +1,3 @@
-import { IRecipient } from '../../types';
 import { Button } from '../Button';
 import { FooterProps } from './types';
 
@@ -8,16 +7,12 @@ export const Footer = ({
   viewCallback,
   addAnotherCallback,
 }: FooterProps) => {
-  const handleGetData = () => {
-    const newData: IRecipient[] = [];
-    getCallback(newData);
-  };
   return (
     <header className="footer">
       <div className="footer__container">
         <div className="footer__actions">
           <div className="footer__actions--left">
-            <Button text="get" onClickCallback={handleGetData} />
+            <Button text="parse" onClickCallback={getCallback} />
             <Button
               text="export"
               icon="export"

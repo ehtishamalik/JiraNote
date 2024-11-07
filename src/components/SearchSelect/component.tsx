@@ -26,7 +26,7 @@ export const SearchSelect = ({
   const selectedLabel: string = useMemo(() => {
     if (!selectedValue.value) return '';
     const selectedOption = options.filter(
-      (item) => item.value === selectedValue.value
+      (item) => item.label === selectedValue.label
     );
     return selectedOption.length > 0 ? selectedOption[0].label : '';
   }, [selectedValue, options]);

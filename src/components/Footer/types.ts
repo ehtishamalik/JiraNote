@@ -1,7 +1,5 @@
-import { IRecipient } from '../../types';
-
 export type FooterProps = {
-  getCallback: (data: IRecipient[]) => void;
+  getCallback: () => void;
   exportCallback: () => void;
   viewCallback: () => void;
   addAnotherCallback: () => void;

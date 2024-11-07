@@ -14,8 +14,9 @@ export const Select = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const selectedLabel: string = useMemo(() => {
+    if (!selectedValue.value) return '';
     const selectedOption = Recipients.filter(
-      (item) => item.value === selectedValue.value
+      (item) => item.label === selectedValue.label
     );
     return selectedOption.length > 0 ? selectedOption[0].label : '';
   }, [selectedValue, Recipients]);

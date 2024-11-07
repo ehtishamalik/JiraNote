@@ -1,4 +1,4 @@
-import { IRecipient, ITicket } from '../types';
+import { ContentResponse, IRecipient, ITicket } from '../types';
 
 export const getTikcet = (): ITicket => {
   return {
@@ -105,4 +105,69 @@ export const handleFileExport = (recipients: IRecipient[], title: string) => {
   link.download = `${title}.md`;
   link.click();
   URL.revokeObjectURL(link.href); // Cleanup
+};
+
+export const ticketsAssignment = (content: ContentResponse[]): IRecipient[] => {
+  const recipientsMap: {
+    [key: string]: {
+      recipient: string;
+      tickets: ITicket[];
+      totalPoints: number;
+    };
+  } = {};
+
+  content.forEach((entry, index) => {
+    const { epic, points, recipient } = entry;
+
+    if (!recipientsMap[recipient]) {
+      recipientsMap[recipient] = {
+        recipient,
+        tickets: [],
+        totalPoints: 0,
+      };
+    }
+
+    // Create the ticket for the recipient
+    const ticket: ITicket = {
+      id: String(index), // Generate a unique ID using Date.now()
+      epic: { label: epic, value: epic }, // Set both label and value to the epic
+      points: points,
+    };
+
+    // Add the ticket to the recipient's tickets
+    recipientsMap[recipient].tickets.push(ticket);
+    // Update the total points for the recipient
+    recipientsMap[recipient].totalPoints += points;
+  });
+
+  // Step 2: Convert the grouped data into the final IRecipient array
+  const recipients: IRecipient[] = Object.values(recipientsMap).map(
+    (recipientData, index) => ({
+      id: String(index), // Generate a unique ID for the recipient
+      recipient: {
+        label: recipientData.recipient,
+        value: recipientData.recipient,
+      },
+      totalPoints: recipientData.totalPoints,
+      tickets: recipientData.tickets,
+    })
+  );
+
+  return recipients;
+};
+
+export const summarizeTicketsByRecipient = (content: any) => {
+  const contentSummarized: ContentResponse[] = [];
+
+  content.issues.forEach((issue: any) => {
+    const { customfield_10025, epic, assignee } = issue.fields;
+    if (!epic || !customfield_10025) return;
+    contentSummarized.push({
+      epic: epic.summary,
+      points: Number(customfield_10025),
+      recipient: assignee.displayName,
+    });
+  });
+
+  return ticketsAssignment(contentSummarized);
 };

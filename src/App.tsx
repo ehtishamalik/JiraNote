@@ -9,6 +9,7 @@ import {
   handleFileExport,
   getRecipient,
   getTikcet,
+  summarizeTicketsByRecipient,
 } from './utils';
 import './styles/index.scss';
 import { Footer } from './components/Footer';
@@ -133,8 +134,21 @@ function App() {
     setRecipientsValues(newRecipients);
   };
 
-  const handleGetData = (data: IRecipient[]) => {
-    setRecipientsValues(data);
+  const handleGetData = () => {
+    try {
+      const parsedContent = JSON.parse(textContent);
+      if ('issues' in parsedContent) {
+        const data = summarizeTicketsByRecipient(parsedContent);
+        setRecipientsValues(data);
+      } else {
+        console.error('Could not find issues in JSON skipping...');
+        return;
+      }
+    } catch (error) {
+      console.error('JSON is not valid, skipping...');
+      console.error(error);
+      return;
+    }
   };
 
   return (

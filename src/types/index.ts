@@ -15,3 +15,9 @@ export interface IRecipient {
   totalPoints: number;
   tickets: ITicket[];
 }
+
+export interface ContentResponse {
+  points: number;
+  epic: string;
+  recipient: string;
+}
