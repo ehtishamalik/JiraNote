@@ -11,6 +11,7 @@ import {
   getTikcet,
 } from './utils';
 import './styles/index.scss';
+import { Footer } from './components/Footer';
 
 function App() {
   const [recipientsValues, setRecipientsValues] = useState<IRecipient[]>([
@@ -168,6 +169,12 @@ function App() {
           </div>
         </div>
       </main>
+      <Footer
+        getCallback={() => {}}
+        exportCallback={() => {}}
+        viewCallback={() => {}}
+        addAnotherCallback={() => {}}
+      />
     </>
   );
 }

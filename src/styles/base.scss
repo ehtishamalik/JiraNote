@@ -19,17 +19,17 @@ body {
   background-color: $color-tertiary;
   line-height: $line-height;
   font-weight: $text-normal;
+  height: 100dvh;
 }
 
 main#root {
+  display: flex;
+  flex-direction: column;
   min-width: $breakpoint-sm;
   max-width: $breakpoint-xxl;
-  padding: 0 calc($padding * 3) $input-options-max-height;
+  height: 100%;
+  padding: 0 calc($padding * 2);
   margin: 0 auto;
-
-  @media (max-width: $breakpoint-lg) {
-    padding: 0 calc($padding * 1.5) $input-options-max-height;
-  }
 
   @media (max-width: $breakpoint-md) {
     padding: 0 $padding;

@@ -51,6 +51,14 @@
 }
 
 .page-layout {
+  height: 100%;
+  overflow: auto;
+  padding-bottom: $input-options-max-height;
+
+  @media (max-width: $breakpoint-md) {
+    padding-bottom: 0;
+  }
+
   .page-layout {
     &__container {
       display: flex;
@@ -172,6 +180,25 @@
             opacity: 1;
           }
         }
+      }
+    }
+  }
+}
+
+.footer {
+  .footer {
+    &__container {
+      padding: $gap 0;
+    }
+
+    &__actions {
+      display: flex;
+      justify-content: space-between;
+
+      &--left,
+      &--right {
+        display: flex;
+        gap: $gap;
       }
     }
   }
