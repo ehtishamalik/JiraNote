@@ -84,14 +84,6 @@ export const generateEpicSummary = (recipients: IRecipient[]) => {
   return [summaryLines, overallTotal];
 };
 
-export const capitalizeAllWords = (string: string) => {
-  if (!string) return '';
-  return string
-    .split(' ')
-    .map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
-    .join(' ');
-};
-
 export const handleFileExport = (recipients: IRecipient[], title: string) => {
   const recipientSummary = generateRecipientSummary(recipients, true);
   const EpicSummary = generateEpicSummary(recipients);

@@ -135,7 +135,7 @@ function App() {
 
   return (
     <>
-      <Header onTitleChange={handleTitleChange} />
+      <Header title={title} onTitleChange={handleTitleChange} />
       <main className="page-layout">
         <div className="page-layout__container">
           <div className="page-layout__forms">

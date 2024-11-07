@@ -2,11 +2,9 @@ import { CSSProperties, useMemo, useState } from 'react';
 import { Button } from '../Button';
 import { HeaderProps } from './types';
 import { InputField } from '../InputField';
-import { capitalizeAllWords } from '../../utils';
 
-export const Header = ({ onTitleChange }: HeaderProps) => {
+export const Header = ({ title, onTitleChange }: HeaderProps) => {
   const [isActive, setIsActive] = useState<boolean>(false);
-  const [title, setTitle] = useState<string>('Jira Note');
 
   const Styles = useMemo(() => {
     return {
@@ -19,14 +17,14 @@ export const Header = ({ onTitleChange }: HeaderProps) => {
   };
 
   const handleOnTitleSave = () => {
-    const capitalizedTitle = capitalizeAllWords(title);
-    onTitleChange(capitalizedTitle || 'Jira Note');
-    setTitle(capitalizedTitle);
+    if (title === '') {
+      onTitleChange('Jira Note');
+    }
     setIsActive(false);
   };
 
   const handleOnInputChange = (value: string) => {
-    setTitle(value);
+    onTitleChange(value);
   };
 
   return (
