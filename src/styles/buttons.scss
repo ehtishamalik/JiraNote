@@ -87,4 +87,8 @@
       }
     }
   }
+
+  &__loading {
+    gap: $button-large-gap !important;
+  }
 }
