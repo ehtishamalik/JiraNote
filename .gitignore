@@ -22,3 +22,7 @@ dist-ssr
 *.sw?
 .vscode
 .vite
+
+# Local Netlify folder
+.netlify
+.env
