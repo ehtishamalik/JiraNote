@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { IRecipient, SelectOption } from './types';
 import { Form } from './components/Form';
 import { Header } from './components/Header';
+import { Footer } from './components/Footer';
 import { FormContextProvider } from './contexts';
 import {
   generateRecipientSummary,
@@ -9,10 +10,8 @@ import {
   handleFileExport,
   getRecipient,
   getTikcet,
-  summarizeTicketsByRecipient,
 } from './utils';
 import './styles/index.scss';
-import { Footer } from './components/Footer';
 
 function App() {
   const [recipientsValues, setRecipientsValues] = useState<IRecipient[]>([
@@ -135,21 +134,8 @@ function App() {
     setRecipientsValues(newRecipients);
   };
 
-  const handleGetData = () => {
-    try {
-      const parsedContent = JSON.parse(textContent);
-      if ('issues' in parsedContent) {
-        const data = summarizeTicketsByRecipient(parsedContent);
-        setRecipientsValues(data);
-      } else {
-        console.error('Could not find issues in JSON skipping...');
-        return;
-      }
-    } catch (error) {
-      console.error('JSON is not valid, skipping...');
-      console.error(error);
-      return;
-    }
+  const handleGetData = (values: IRecipient[]) => {
+    setRecipientsValues(values);
   };
 
   return (
