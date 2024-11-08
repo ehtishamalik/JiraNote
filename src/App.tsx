@@ -10,6 +10,7 @@ import {
   handleFileExport,
   getRecipient,
   getTikcet,
+  generateRecipientProgress,
 } from './utils';
 import './styles/index.scss';
 
@@ -122,10 +123,11 @@ function App() {
 
   const handleView = () => {
     const recipientSummary = generateRecipientSummary(recipientsValues);
+    const progress = generateRecipientProgress(recipientsValues);
     const { summaryLines, overallTotal } =
       generateEpicSummary(recipientsValues);
     setTextContent(
-      `${title}\n\n${recipientSummary}\n\n\n**** Epics Summary ****\nTotal: ${overallTotal}\n\n${summaryLines}\n`
+      `${title}\n\n${recipientSummary}\n${progress}\n\n**** Epics Summary ****\nTotal: ${overallTotal}\n\n${summaryLines}\n`
     );
   };
 
