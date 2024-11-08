@@ -13,6 +13,7 @@ export interface IRecipient {
   id: string;
   recipient: SelectOption;
   totalPoints: number;
+  completedPoints: number;
   tickets: ITicket[];
 }
 
@@ -20,6 +21,7 @@ export interface ContentSummarized {
   points: number;
   epic: string;
   recipient: string;
+  status: string;
 }
 
 export interface ContentResponse {
@@ -31,6 +33,9 @@ export interface ContentResponse {
       };
       assignee: {
         displayName: string;
+      };
+      status: {
+        name: string;
       };
     };
   }[];

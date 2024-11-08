@@ -24,6 +24,7 @@ export const getRecipient = (): IRecipient => {
       value: '',
     },
     totalPoints: 0,
+    completedPoints: 0,
     tickets: [getTikcet()],
   };
 };
@@ -56,6 +57,20 @@ export const generateRecipientSummary = (
         .join('\n');
 
       return `${recipientLine}\n${ticketsLines}\n\n`;
+    })
+    .join('');
+};
+
+export const generateRecipientProgress = (recipients: IRecipient[]): string => {
+  return recipients
+    .filter((recipient) => recipient.recipient.value)
+    .map(({ recipient, totalPoints, completedPoints }) => {
+      const percentage = (completedPoints / totalPoints) * 100;
+      return `${
+        recipient.label
+      }\nTotal points: ${totalPoints}\nCompleted points: ${completedPoints}\nPercentage: ${percentage.toFixed(
+        2
+      )}%\n\n`;
     })
     .join('');
 };
@@ -129,17 +144,19 @@ export const ticketsAssignment = (
       recipient: string;
       tickets: ITicket[];
       totalPoints: number;
+      completedPoints: number;
     };
   } = {};
 
   content.forEach((entry, index) => {
-    const { epic, points, recipient } = entry;
+    const { epic, points, recipient, status } = entry;
 
     if (!recipientsMap[recipient]) {
       recipientsMap[recipient] = {
         recipient,
         tickets: [],
         totalPoints: 0,
+        completedPoints: 0,
       };
     }
 
@@ -151,6 +168,9 @@ export const ticketsAssignment = (
 
     recipientsMap[recipient].tickets.push(ticket);
     recipientsMap[recipient].totalPoints += points;
+    if (['In Deploy', 'In Testing', 'Done'].includes(status)) {
+      recipientsMap[recipient].completedPoints += points;
+    }
   });
 
   const recipients: IRecipient[] = Object.values(recipientsMap).map(
@@ -162,6 +182,7 @@ export const ticketsAssignment = (
       },
       totalPoints: recipientData.totalPoints,
       tickets: recipientData.tickets,
+      completedPoints: recipientData.completedPoints,
     })
   );
 
@@ -172,12 +193,13 @@ export const summarizeTicketsByRecipient = (content: ContentResponse) => {
   const contentSummarized: ContentSummarized[] = [];
 
   content.issues.forEach((issue) => {
-    const { customfield_10025, epic, assignee } = issue.fields;
+    const { customfield_10025, epic, assignee, status } = issue.fields;
     if (!epic || !customfield_10025 || !assignee) return;
     contentSummarized.push({
       epic: epic.summary,
       points: customfield_10025,
       recipient: assignee.displayName,
+      status: status.name,
     });
   });
 
