@@ -168,7 +168,9 @@ export const ticketsAssignment = (
 
     recipientsMap[recipient].tickets.push(ticket);
     recipientsMap[recipient].totalPoints += points;
-    if (['In Deploy', 'In Testing', 'Done'].includes(status)) {
+    if (
+      ['in deploy', 'in testing', 'done'].includes(status.toLocaleLowerCase())
+    ) {
       recipientsMap[recipient].completedPoints += points;
     }
   });
