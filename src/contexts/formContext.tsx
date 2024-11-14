@@ -3,8 +3,10 @@ import { FormContextProviderProps } from './types';
 import { SelectOption } from '../types';
 import { fetchEpics, fetchRecipients } from '../api';
 import { formContext } from './contexts';
+import { Loader } from '../components/Loader';
 
 export const FormContextProvider = ({ children }: FormContextProviderProps) => {
+  const [isLoading, setIsLoading] = useState<boolean>(true);
   const [Recipients, setRecipients] = useState<SelectOption[]>([]);
   const [Epics, setEpics] = useState<SelectOption[]>([]);
 
@@ -15,6 +17,7 @@ export const FormContextProvider = ({ children }: FormContextProviderProps) => {
 
       setRecipients(recipients);
       setEpics(epics);
+      setIsLoading(false);
     };
 
     loadOptions();
@@ -28,6 +31,7 @@ export const FormContextProvider = ({ children }: FormContextProviderProps) => {
     <formContext.Provider
       value={{ Epics, Recipients, updateEpics: handleUpdateEpics }}
     >
+      <Loader isLoading={isLoading} />
       {children}
     </formContext.Provider>
   );
