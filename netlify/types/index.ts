@@ -1,3 +1,28 @@
+export interface ContentSummarized {
+  points: number;
+  epic: string;
+  recipient: string;
+  status: string;
+}
+
+export interface ContentResponse {
+  issues: {
+    fields: {
+      customfield_10025: number;
+      epic: {
+        summary: string;
+      };
+      assignee: {
+        displayName: string;
+      };
+      status: {
+        name: string;
+      };
+      summary: string;
+    };
+  }[];
+}
+
 export type SelectOption = {
   label: string;
   value: string;
