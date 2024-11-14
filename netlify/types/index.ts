@@ -18,6 +18,7 @@ export interface ContentResponse {
       status: {
         name: string;
       };
+      summary: string;
     };
   }[];
 }

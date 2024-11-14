@@ -3,6 +3,7 @@ import {
   ContentSummarized,
   IRecipient,
   ITicket,
+  SelectOption,
 } from '../types';
 
 export const getInitials = (name: string) => {
@@ -82,4 +83,14 @@ export const summarizeTicketsByRecipient = (content: ContentResponse) => {
   });
 
   return ticketsAssignment(contentSummarized);
+};
+
+export const formatEpics = (content: ContentResponse): SelectOption[] => {
+  return content.issues.map((issue) => {
+    const name = issue.fields.summary;
+    return {
+      label: name,
+      value: name,
+    };
+  });
 };

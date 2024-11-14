@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { FormContextProviderProps } from './types';
 import { SelectOption } from '../types';
-import { fetchOptions } from '../api';
+import { fetchEpics, fetchRecipients } from '../api';
 import { formContext } from './contexts';
 
 export const FormContextProvider = ({ children }: FormContextProviderProps) => {
@@ -10,8 +10,8 @@ export const FormContextProvider = ({ children }: FormContextProviderProps) => {
 
   useEffect(() => {
     const loadOptions = async () => {
-      const recipients = await fetchOptions('/json/recipients.json');
-      const epics = await fetchOptions('/json/epics.json');
+      const recipients = await fetchRecipients();
+      const epics = await fetchEpics();
 
       setRecipients(recipients);
       setEpics(epics);

@@ -1,7 +1,7 @@
-import axios from 'axios';
 import { Button } from '../Button';
 import { FooterProps } from './types';
 import { useState } from 'react';
+import { fetchIssues } from '../../api';
 
 export const Footer = ({
   getCallback,
@@ -13,18 +13,9 @@ export const Footer = ({
 
   const handleGetIssues = async () => {
     setIsLoading(true);
-    try {
-      const responseIssues = await axios(`/.netlify/functions/get-issues`);
-
-      if (responseIssues.status !== 200) {
-        console.error('Could not get issues.', responseIssues.data);
-      } else {
-        console.log(responseIssues.data);
-
-        getCallback(responseIssues.data);
-      }
-    } catch (error) {
-      console.error('An error occured!', error);
+    const response = await fetchIssues();
+    if (response?.length) {
+      getCallback(response);
     }
     setIsLoading(false);
   };
