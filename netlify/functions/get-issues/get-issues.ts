@@ -16,18 +16,16 @@ export const handler: Handler = async () => {
       },
     });
 
-    const activeSprint: Sprint[] = sprints.data.values.filter(
-      (sprint: Sprint) => sprint.state === 'active'
-    );
-    if (!activeSprint.length) {
+    const activeSprint: Sprint = sprints.data.values[0];
+
+    if (!activeSprint) {
       return {
         statusCode: 500,
         body: JSON.stringify({ error: 'Could not find sprints' }),
       };
     }
-    const sprintid = activeSprint[0].id;
 
-    const response = await axios.get(`${urlIssues}/${sprintid}/issue`, {
+    const response = await axios.get(`${urlIssues}/${activeSprint.id}/issue`, {
       auth: {
         username: username ?? '',
         password: password ?? '',

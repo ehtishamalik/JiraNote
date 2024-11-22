@@ -12,12 +12,13 @@ import {
   getTikcet,
 } from './utils';
 import './styles/index.scss';
+import { ViewText } from './components/ViewText';
 
 function App() {
   const [recipientsValues, setRecipientsValues] = useState<IRecipient[]>([
     getRecipient(),
   ]);
-  // const [textContent, setTextContent] = useState<string>('');
+  const [showTextarea, setShowTextarea] = useState<boolean>(false);
   const [title, setTitle] = useState<string>('Jira Note');
 
   const handleAddMore = (formId: string) => {
@@ -104,14 +105,6 @@ function App() {
     }
   };
 
-  // const handleChangeTextArea = (
-  //   event: React.ChangeEvent<HTMLTextAreaElement>
-  // ) => {
-  //   const { value } = event.target;
-
-  //   if (value) setTextContent(value);
-  // };
-
   const handleTitleChange = (value: string) => {
     setTitle(value);
   };
@@ -121,12 +114,7 @@ function App() {
   };
 
   const handleView = () => {
-    // const recipientSummary = generateRecipientSummary(recipientsValues);
-    // const { summaryLines, overallTotal } =
-    //   generateEpicSummary(recipientsValues);
-    // setTextContent(
-    //   `${title}\n\n${recipientSummary}\n\n**** Epics Summary ****\nTotal: ${overallTotal}\n\n${summaryLines}\n`
-    // );
+    setShowTextarea(true);
   };
 
   const handleAddAnother = () => {
@@ -138,25 +126,37 @@ function App() {
     setRecipientsValues(values);
   };
 
+  const closeViewText = () => {
+    setShowTextarea(false);
+  };
+
   return (
     <>
       <Header title={title} onTitleChange={handleTitleChange} />
-      <main className="page-layout">
-        <div className="page-layout__container">
-          <FormContextProvider>
-            {recipientsValues.map((recipient, index) => (
-              <Form
-                key={index}
-                formData={recipient}
-                recipientsChangeCallback={handleRecipientsChange}
-                addMoreCallback={handleAddMore}
-                epicChangeCallback={handleEpicChange}
-                pointsChangeCallback={handlePointsChange}
-                duplicationCallback={handleRowDuplication}
-              />
-            ))}
-          </FormContextProvider>
-        </div>
+      <main className="page-main">
+        <section className="page-layout">
+          <div className="page-layout__container">
+            <FormContextProvider>
+              {recipientsValues.map((recipient, index) => (
+                <Form
+                  key={index}
+                  formData={recipient}
+                  recipientsChangeCallback={handleRecipientsChange}
+                  addMoreCallback={handleAddMore}
+                  epicChangeCallback={handleEpicChange}
+                  pointsChangeCallback={handlePointsChange}
+                  duplicationCallback={handleRowDuplication}
+                />
+              ))}
+            </FormContextProvider>
+          </div>
+          <ViewText
+            showText={showTextarea}
+            recipients={recipientsValues}
+            title={title}
+            closeCallback={closeViewText}
+          />
+        </section>
       </main>
       <Footer
         getCallback={handleGetData}

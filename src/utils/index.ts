@@ -123,13 +123,3 @@ export const handleFileExport = (recipients: IRecipient[], title: string) => {
   link.click();
   URL.revokeObjectURL(link.href); // Cleanup
 };
-
-// <div className="page-layout__textarea">
-//             <textarea
-//               name="recipient-summary"
-//               id="recipient-summary-textarea"
-//               placeholder="Recipient Summary..."
-//               value={textContent}
-//               onChange={handleChangeTextArea}
-//             ></textarea>
-//           </div>
