@@ -13,25 +13,27 @@ export const ViewText = memo(
     const header = '\n\n**** Epics Summary ****\nTotal: ';
 
     return (
-      showText && (
-        <section className="viewtext">
+      <section className="viewtext">
+        {showText && (
           <div className="viewtext__container">
-            <button
-              type="button"
-              className="viewtext__close"
-              onClick={closeCallback}
-            >
-              &times;
-            </button>
-            <textarea
-              name="recipient-summary"
-              id="recipient-summary-textarea"
-              placeholder="Recipient Summary..."
-              defaultValue={`${title}\n\n${recipientSummary}${header}${overallTotal}\n\n${summaryLines}\n`}
-            ></textarea>
+            <div className="viewtext__textarea">
+              <button
+                type="button"
+                className="viewtext__close"
+                onClick={closeCallback}
+              >
+                &times;
+              </button>
+              <textarea
+                name="recipient-summary"
+                id="recipient-summary-textarea"
+                placeholder="Recipient Summary..."
+                defaultValue={`${title}\n\n${recipientSummary}${header}${overallTotal}\n\n${summaryLines}\n`}
+              ></textarea>
+            </div>
           </div>
-        </section>
-      )
+        )}
+      </section>
     );
   },
   areEqual
