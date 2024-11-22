@@ -40,69 +40,102 @@
   }
 }
 
-.page-layout {
-  height: 100%;
+.page-main {
   overflow: auto;
+  height: 100%;
   padding-bottom: $input-options-max-height;
+}
 
+.page-layout {
   @media (max-width: $breakpoint-md) {
     padding-bottom: 0;
   }
 
   .page-layout {
     &__container {
-      display: flex;
-      flex-direction: row;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(200px, 1fr));
       gap: calc($gap * 2);
+      padding: 0 $gap;
 
       @media (max-width: $breakpoint-lg) {
+        grid-template-columns: repeat(1, minmax(200px, 1fr));
         gap: $gap;
       }
 
       @media (max-width: $breakpoint-md) {
-        flex-direction: column;
       }
     }
+  }
+}
 
-    &__forms {
-      flex: 1;
-    }
+.viewtext {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: $color-bg-dialog;
 
-    &__textarea {
-      flex: 1;
-      box-shadow: $box-shadow-light;
-      margin-bottom: $gap;
+  &__container {
+    position: relative;
+    max-width: 42rem;
+    max-height: 32rem;
+    height: 100%;
+    width: 100%;
 
-      textarea {
-        resize: none;
-        height: 100%;
-        outline: none;
-        font-family: $font-family;
-        color: $input-color-text;
+    textarea {
+      resize: none;
+      height: 100%;
+      outline: none;
+      font-family: $font-family;
+      color: $input-color-text;
+      font-size: $lg;
+      width: $input-container-width;
+      border-radius: $border-radius-outer;
+      background-color: $input-bg-color;
+      border: $input-container-border;
+      padding: calc($input-items-padding * 2);
+      min-height: $input-options-max-height;
+      border: 0.2rem solid $color-accent;
+
+      &::-webkit-scrollbar {
+        visibility: collapse;
+      }
+
+      @media (max-width: $breakpoint-md) {
         font-size: $md;
-        width: $input-container-width;
-        border-radius: $border-radius-outer;
-        background-color: $input-bg-color;
-        border: $input-container-border;
-        padding: calc($input-items-padding * 2);
-        min-height: $input-options-max-height;
-
-        @media (max-width: $breakpoint-md) {
-          min-height: calc($input-options-max-height * 2);
-        }
       }
     }
+  }
+
+  &__close {
+    position: absolute;
+    top: 1rem;
+    right: 1.5rem;
+    outline: none;
+    border: none;
+    font-size: 2rem;
+    border-radius: 50%;
+    background: transparent;
+    color: $color-accent;
+    cursor: pointer;
   }
 }
 
 .jn-form {
   .jn-form {
     &__container {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
       padding: $padding;
       background-color: var(--bg-color);
       border-radius: $border-radius-outer;
       box-shadow: $box-shadow-light;
-      margin-bottom: $gap;
 
       @media (max-width: $breakpoint-md) {
         margin-bottom: calc($gap * 2);
@@ -122,6 +155,9 @@
 
         .jn-select {
           min-width: 18rem;
+          @media (max-width: $breakpoint-xl) {
+            min-width: 12rem;
+          }
         }
       }
 
@@ -176,6 +212,8 @@
 }
 
 .footer {
+  margin-top: auto;
+
   .footer {
     &__container {
       padding: $gap 0;
@@ -204,5 +242,5 @@
   z-index: 99;
   justify-content: center;
   align-items: center;
-  background: rgb(83 91 242 / 14%);
+  background: $color-bg-dialog;
 }

@@ -5,20 +5,20 @@ import { Header } from './components/Header';
 import { Footer } from './components/Footer';
 import { FormContextProvider } from './contexts';
 import {
-  generateRecipientSummary,
-  generateEpicSummary,
+  // generateRecipientSummary,
+  // generateEpicSummary,
   handleFileExport,
   getRecipient,
   getTikcet,
-  generateRecipientProgress,
 } from './utils';
 import './styles/index.scss';
+import { ViewText } from './components/ViewText';
 
 function App() {
   const [recipientsValues, setRecipientsValues] = useState<IRecipient[]>([
     getRecipient(),
   ]);
-  const [textContent, setTextContent] = useState<string>('');
+  const [showTextarea, setShowTextarea] = useState<boolean>(false);
   const [title, setTitle] = useState<string>('Jira Note');
 
   const handleAddMore = (formId: string) => {
@@ -105,14 +105,6 @@ function App() {
     }
   };
 
-  const handleChangeTextArea = (
-    event: React.ChangeEvent<HTMLTextAreaElement>
-  ) => {
-    const { value } = event.target;
-
-    if (value) setTextContent(value);
-  };
-
   const handleTitleChange = (value: string) => {
     setTitle(value);
   };
@@ -122,13 +114,7 @@ function App() {
   };
 
   const handleView = () => {
-    const recipientSummary = generateRecipientSummary(recipientsValues);
-    const progress = generateRecipientProgress(recipientsValues);
-    const { summaryLines, overallTotal } =
-      generateEpicSummary(recipientsValues);
-    setTextContent(
-      `${title}\n\n${recipientSummary}\n${progress}\n\n**** Epics Summary ****\nTotal: ${overallTotal}\n\n${summaryLines}\n`
-    );
+    setShowTextarea(true);
   };
 
   const handleAddAnother = () => {
@@ -140,12 +126,16 @@ function App() {
     setRecipientsValues(values);
   };
 
+  const closeViewText = () => {
+    setShowTextarea(false);
+  };
+
   return (
     <>
       <Header title={title} onTitleChange={handleTitleChange} />
-      <main className="page-layout">
-        <div className="page-layout__container">
-          <div className="page-layout__forms">
+      <main className="page-main">
+        <section className="page-layout">
+          <div className="page-layout__container">
             <FormContextProvider>
               {recipientsValues.map((recipient, index) => (
                 <Form
@@ -160,16 +150,13 @@ function App() {
               ))}
             </FormContextProvider>
           </div>
-          <div className="page-layout__textarea">
-            <textarea
-              name="recipient-summary"
-              id="recipient-summary-textarea"
-              placeholder="Recipient Summary..."
-              value={textContent}
-              onChange={handleChangeTextArea}
-            ></textarea>
-          </div>
-        </div>
+          <ViewText
+            showText={showTextarea}
+            recipients={recipientsValues}
+            title={title}
+            closeCallback={closeViewText}
+          />
+        </section>
       </main>
       <Footer
         getCallback={handleGetData}

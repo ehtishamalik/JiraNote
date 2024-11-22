@@ -6,6 +6,7 @@ $color-tertiary: rgb(230, 230, 230);
 $color-border: rgb(204, 204, 204);
 $color-accent: rgb(100, 108, 255);
 $color-accent-hover: rgb(83, 91, 242);
+$color-bg-dialog: rgb(83 91 242 / 18%);
 
 // Fixed values
 $xxs: 0.1rem;
@@ -22,11 +23,11 @@ $border-radius-inner: $xs;
 $border-radius-outer: $sm;
 
 // Breakpoints
-$breakpoint-sm: 36rem;
-$breakpoint-md: 48rem;
-$breakpoint-lg: 62rem;
-$breakpoint-xl: 75rem;
-$breakpoint-xxl: 90rem;
+$breakpoint-sm: 36rem; //576px
+$breakpoint-md: 48rem; //768px
+$breakpoint-lg: 62rem; //992px
+$breakpoint-xl: 75rem; //1200px
+$breakpoint-xxl: 90rem; //1440px
 
 // Typography
 $text-light: 300;
