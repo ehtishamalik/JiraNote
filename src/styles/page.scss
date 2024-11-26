@@ -53,18 +53,9 @@
 
   .page-layout {
     &__container {
-      display: grid;
-      grid-template-columns: repeat(2, minmax(200px, 1fr));
+      display: flex;
+      flex-direction: column;
       gap: calc($gap * 2);
-      padding: 0 $gap;
-
-      @media (max-width: $breakpoint-lg) {
-        grid-template-columns: repeat(1, minmax(200px, 1fr));
-        gap: $gap;
-      }
-
-      @media (max-width: $breakpoint-md) {
-      }
     }
   }
 }
@@ -131,9 +122,6 @@
 .jn-form {
   .jn-form {
     &__container {
-      display: flex;
-      flex-direction: column;
-      height: 100%;
       padding: $padding;
       background-color: var(--bg-color);
       border-radius: $border-radius-outer;
@@ -183,9 +171,14 @@
     }
 
     &__layout {
-      display: flex;
-      flex-direction: column;
-      gap: $gap;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(10rem, 1fr));
+      gap: $gap calc($gap * 2);
+
+      @media (max-width: $breakpoint-md) {
+        grid-template-columns: repeat(1, minmax(200px, 1fr));
+        gap: $gap;
+      }
     }
 
     &__row {

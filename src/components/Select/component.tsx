@@ -1,5 +1,5 @@
 import { SelectProps } from './types';
-import { useMemo, useState, MouseEvent, useContext } from 'react';
+import { useMemo, useState, MouseEvent, useContext, useRef } from 'react';
 import clsx from 'clsx';
 import { SelectOption } from '../../types';
 import { formContext } from '../../contexts';
@@ -11,6 +11,8 @@ export const Select = ({
 }: SelectProps) => {
   const { Recipients } = useContext(formContext);
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const selectRef = useRef<HTMLDivElement | null>(null);
+  const [openDirection, setOpenDirection] = useState<'down' | 'up'>('down');
 
   const selectedLabel: string = useMemo(() => {
     if (!selectedValue.value) return '';
@@ -37,6 +39,21 @@ export const Select = ({
     onChangeCallback({ label: '', value: '' }, id);
   };
 
+  const handleToggleDropdown = () => {
+    if (selectRef.current) {
+      const rect = selectRef.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const spaceAbove = rect.top;
+
+      if (spaceBelow < 256 && spaceAbove >= 256) {
+        setOpenDirection('up');
+      } else {
+        setOpenDirection('down');
+      }
+    }
+    setIsOpen(!isOpen);
+  };
+
   return (
     <div className="jn-select">
       <div
@@ -45,8 +62,9 @@ export const Select = ({
           'jn-select__container--active': isOpen,
         })}
         tabIndex={0}
+        ref={selectRef}
         onBlur={() => setIsOpen(false)}
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={handleToggleDropdown}
         title={selectedLabel}
       >
         {selectedLabel ? (
@@ -65,7 +83,13 @@ export const Select = ({
         )}
         <span className="jn-select__divider"></span>
         <span className="jn-select__caret"></span>
-        <ul className="jn-select__options" onClick={handleOnChange}>
+        <ul
+          className={clsx('jn-select__options', {
+            'jn-select__options--up': openDirection === 'up',
+            'jn-select__options--down': openDirection === 'down',
+          })}
+          onClick={handleOnChange}
+        >
           {Recipients.map((option, index) => (
             <li
               key={index}
