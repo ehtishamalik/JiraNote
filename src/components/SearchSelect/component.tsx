@@ -22,6 +22,7 @@ export const SearchSelect = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>('');
   const [options, setOptions] = useState<SelectOption[]>([]);
+  const [openDirection, setOpenDirection] = useState<'down' | 'up'>('down');
 
   const selectedLabel: string = useMemo(() => {
     if (!selectedValue.value) return '';
@@ -31,8 +32,8 @@ export const SearchSelect = ({
     return selectedOption.length > 0 ? selectedOption[0].label : '';
   }, [selectedValue, options]);
 
-  const inputRef = useRef<HTMLInputElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     if (isOpen) {
@@ -50,7 +51,19 @@ export const SearchSelect = ({
 
   const handleOnOpen = () => {
     if (disabled) return;
-    setIsOpen(true);
+    // setIsOpen(true);
+    if (containerRef.current) {
+      const rect = containerRef.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      const spaceAbove = rect.top;
+
+      if (spaceBelow < 256 && spaceAbove >= 256) {
+        setOpenDirection('up');
+      } else {
+        setOpenDirection('down');
+      }
+    }
+    setIsOpen(!isOpen);
   };
 
   const handleOnChangeOption = (event: MouseEvent<HTMLUListElement>) => {
@@ -136,7 +149,8 @@ export const SearchSelect = ({
         <ul
           onClick={handleOnChangeOption}
           className={clsx('jn-select__options', {
-            show: isOpen,
+            'jn-select__options--up': openDirection === 'up',
+            'jn-select__options--down': openDirection === 'down',
           })}
         >
           {options.length ? (
