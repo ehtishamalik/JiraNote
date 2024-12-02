@@ -40,12 +40,6 @@
   }
 }
 
-.page-main {
-  overflow: auto;
-  height: 100%;
-  padding-bottom: $input-options-max-height;
-}
-
 .page-layout {
   @media (max-width: $breakpoint-md) {
     padding-bottom: 0;
@@ -103,6 +97,7 @@
     max-height: 32rem;
     height: 100%;
     width: 100%;
+    animation: ViewText 250ms linear;
   }
 
   &__close {
@@ -238,4 +233,22 @@
   justify-content: center;
   align-items: center;
   background: $color-bg-dialog;
+}
+
+@keyframes ViewText {
+  0% {
+    transform: scale(0.8);
+  }
+
+  35% {
+    transform: scale(1);
+  }
+
+  70% {
+    transform: scale(0.9);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }

@@ -22,6 +22,16 @@ body {
   height: 100dvh;
 }
 
+.page-main {
+  overflow: auto;
+  height: 100%;
+  padding-bottom: $input-options-max-height;
+
+  &::-webkit-scrollbar {
+    visibility: collapse;
+  }
+}
+
 main#root {
   display: flex;
   flex-direction: column;

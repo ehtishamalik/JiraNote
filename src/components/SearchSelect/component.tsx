@@ -1,12 +1,5 @@
 import { SearchSelectProps } from './types';
-import {
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-  MouseEvent,
-  useContext,
-} from 'react';
+import { useEffect, useRef, useState, MouseEvent, useContext } from 'react';
 import clsx from 'clsx';
 import { SelectOption } from '../../types';
 import { formContext } from '../../contexts';
@@ -18,19 +11,12 @@ export const SearchSelect = ({
   onChangeCallback,
 }: SearchSelectProps) => {
   const { Epics, updateEpics } = useContext(formContext);
+  const { value: currentValue } = selectedValue;
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [searchText, setSearchText] = useState<string>('');
   const [options, setOptions] = useState<SelectOption[]>([]);
   const [openDirection, setOpenDirection] = useState<'down' | 'up'>('down');
-
-  const selectedLabel: string = useMemo(() => {
-    if (!selectedValue.value) return '';
-    const selectedOption = options.filter(
-      (item) => item.value === selectedValue.value
-    );
-    return selectedOption.length > 0 ? selectedOption[0].label : '';
-  }, [selectedValue, options]);
 
   const inputRef = useRef<HTMLInputElement | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -51,7 +37,6 @@ export const SearchSelect = ({
 
   const handleOnOpen = () => {
     if (disabled) return;
-    // setIsOpen(true);
     if (containerRef.current) {
       const rect = containerRef.current.getBoundingClientRect();
       const spaceBelow = window.innerHeight - rect.bottom;
@@ -99,7 +84,7 @@ export const SearchSelect = ({
   const handleBlur = (event: React.FocusEvent<HTMLDivElement>) => {
     if (!containerRef.current?.contains(event.relatedTarget as Node)) {
       setIsOpen(false);
-      if (!selectedLabel) {
+      if (!currentValue) {
         setSearchText('');
       }
     }
@@ -120,26 +105,21 @@ export const SearchSelect = ({
           'jn-select__container--disabled': disabled,
         })}
         tabIndex={0}
-        title={selectedLabel}
+        title={selectedValue.value}
         onBlur={handleBlur}
         onClick={handleOnOpen}
       >
-        {isOpen || selectedLabel ? (
-          <input
-            ref={inputRef}
-            type="text"
-            className="jn-select__text jn-select__text--input"
-            name="search-select-value"
-            id={`${id}-id`}
-            value={searchText || selectedLabel}
-            onChange={handleChangeInput}
-          />
-        ) : (
-          <span className="jn-select__text jn-select__text--placeholder">
-            Select an Epic
-          </span>
-        )}
-        {!disabled && selectedLabel && (
+        <input
+          ref={inputRef}
+          type="text"
+          className="jn-select__text jn-select__text--input"
+          name="search-select-value"
+          id={`${id}-id`}
+          value={searchText || currentValue}
+          placeholder="Select an Epic"
+          onChange={handleChangeInput}
+        />
+        {!disabled && currentValue && (
           <button className="jn-select__clear" onClick={handleReset}>
             &times;
           </button>
@@ -160,7 +140,7 @@ export const SearchSelect = ({
                 data-label={option.label}
                 data-value={option.value}
                 className={clsx('jn-select__item', {
-                  selected: option.value === selectedValue.value,
+                  selected: option.value === currentValue,
                 })}
               >
                 {option.label}

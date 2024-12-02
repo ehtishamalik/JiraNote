@@ -50,6 +50,11 @@
         background-color: transparent;
         outline: none;
         width: 100%;
+
+        &::placeholder {
+          color: rgba($color-secondary, 0.5);
+          font-size: $input-font-size;
+        }
       }
 
       &--placeholder {
@@ -123,6 +128,7 @@
       padding: $input-items-padding;
       font-weight: $text-bold;
       font-size: $md;
+      margin-bottom: $xs;
 
       &--disabled {
         cursor: auto;
